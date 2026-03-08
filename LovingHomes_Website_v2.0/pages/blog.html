@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المدونة - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    /* ════════════════════════════════════════
+       بطاقة المدونة مع Hover Overlay
+    ════════════════════════════════════════ */
+
+    /* الكارد الأساسي */
+    .blog-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--gradient-card);
+      border: var(--border-card);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 55px rgba(59, 111, 255, 0.28);
+      border-color: rgba(0, 212, 255, 0.35);
+    }
+
+    /* غلاف الصورة */
+    .blog-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+    .blog-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.55s ease;
+    }
+    .blog-card:hover .blog-img {
+      transform: scale(1.09);
+    }
+
+    /* ── الـ Overlay يطلع من تحت ── */
+    .blog-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(5, 13, 26, 0.97)  0%,
+        rgba(5, 13, 26, 0.88)  38%,
+        rgba(10, 30, 100, 0.60) 65%,
+        rgba(0,   0,   0, 0.10) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.4rem 1.25rem 1.15rem;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.38s ease, transform 0.38s ease;
+    }
+    .blog-card:hover .blog-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Badge داخل الـ Overlay */
+    .ov-badge {
+      display: inline-block;
+      padding: 0.18rem 0.7rem;
+      border-radius: 50px;
+      font-size: 0.70rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      width: fit-content;
+      letter-spacing: 0.04em;
+    }
+    .ov-gold { background: rgba(255,201,71,0.18); color: #ffc947; border: 1px solid rgba(255,201,71,0.5); }
+    .ov-blue { background: rgba(59,111,255,0.18); color: #7aa3ff; border: 1px solid rgba(59,111,255,0.55); }
+    .ov-cyan { background: rgba(0,212,255,0.13);  color: #00d4ff; border: 1px solid rgba(0,212,255,0.50); }
+
+    /* عنوان داخل الـ Overlay */
+    .ov-title {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.45rem;
+      line-height: 1.45;
+    }
+
+    /* الوصف داخل الـ Overlay */
+    .ov-desc {
+      font-size: 0.81rem;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.65;
+      margin-bottom: 0.65rem;
+    }
+
+    /* Meta داخل الـ Overlay */
+    .ov-meta {
+      font-size: 0.71rem;
+      color: rgba(255, 255, 255, 0.48);
+    }
+
+    /* زر "اقرأ المقال" */
+    .ov-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
+      padding: 0.35rem 0.95rem;
+      background: rgba(59, 111, 255, 0.25);
+      border: 1px solid rgba(59, 111, 255, 0.55);
+      border-radius: 50px;
+      color: #7aa3ff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      width: fit-content;
+    }
+    .ov-btn:hover {
+      background: rgba(59, 111, 255, 0.45);
+      border-color: rgba(0, 212, 255, 0.7);
+      color: #00d4ff;
+    }
+
+    /* جسم الكارد تحت الصورة */
+    .blog-card-body {
+      padding: 1rem 1.2rem 1.3rem;
+    }
+    .blog-card-body .card-badge {
+      display: inline-block;
+      margin-bottom: 0.6rem;
+    }
+    .blog-card-body h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+      line-height: 1.45;
+    }
+    .blog-card-body p {
+      font-size: 0.83rem;
+      color: rgba(255, 255, 255, 0.58);
+      line-height: 1.6;
+    }
+    .blog-card-body .meta {
+      margin-top: 0.75rem;
+      font-size: 0.73rem;
+      color: rgba(255, 255, 255, 0.42);
+    }
+
+    /* ── المقال المميز ── */
+    .featured-img-wrap {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      position: relative;
+    }
+    .featured-img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .featured-img-wrap:hover .featured-img { transform: scale(1.05); }
+
+    .featured-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(5,13,26,0.93) 0%, rgba(13,41,128,0.45) 50%, transparent 100%);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.6rem;
+      opacity: 0;
+      transition: opacity 0.38s ease;
+    }
+    .featured-img-wrap:hover .featured-overlay { opacity: 1; }
+
+    .featured-overlay-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .featured-overlay-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+    .featured-overlay-desc {
+      font-size: 0.87rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.6;
+    }
+    .featured-overlay-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.3rem;
+      padding: 0.38rem 1rem;
+      background: rgba(0, 212, 255, 0.2);
+      border: 1px solid rgba(0, 212, 255, 0.55);
+      border-radius: 50px;
+      color: #00d4ff;
+      font-size: 0.80rem;
+      font-weight: 600;
+      width: fit-content;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .featured-overlay-btn:hover { background: rgba(0,212,255,0.38); }
+  </style>
+
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html" class="active">المدونة</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← المدونة</div>
+    <div class="section-tag animate-on-scroll">نصائح ومعلومات</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">مدونة Loving Homes</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">نصائح متخصصة ومعلومات مفيدة لكل صاحب كلب</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- ══ المقال المميز ══ -->
+    <div class="card animate-on-scroll"
+         style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;margin-bottom:3rem;padding:3rem">
+
+      <div class="featured-img-wrap">
+        <img class="featured-img"
+          src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=700&q=80"
+          alt="10 نصائح لإقامة كلبك في الفندق">
+        <!-- Overlay على الصورة المميزة -->
+        <div class="featured-overlay">
+          <div class="featured-overlay-inner">
+            <div class="featured-overlay-title">10 نصائح لجعل إقامة كلبك في الفندق أفضل تجربة ممكنة</div>
+            <div class="featured-overlay-desc">
+              اختر فندقاً موثوقاً، أحضر لعبته المفضلة، أعطِ تعليمات دقيقة عن عاداته،
+              وتأكد من تحديث تطعيماته. راحة كلبك تبدأ بتحضيرك الجيد قبل السفر.
+            </div>
+            <span class="featured-overlay-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span class="badge badge-cyan" style="margin-bottom:1rem;display:inline-block">مميز</span>
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;line-height:1.4">
+          10 نصائح لجعل إقامة كلبك في الفندق أفضل تجربة ممكنة
+        </h2>
+        <p style="color:var(--white-70);line-height:1.8;margin-bottom:1.5rem;font-size:0.9rem">
+          هل تخطط لترك كلبك في فندق للمرة الأولى؟ إليك الدليل الشامل الذي يضمن راحته وسعادته أثناء غيابك...
+        </p>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <span style="font-size:0.8rem;color:var(--white-60)">✍️ د. تشان وَاي مينغ | 📅 15 يناير 2025 | ⏱️ 5 دقائق</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ شبكة المقالات ══ -->
+    <div class="grid-3">
+
+      <!-- مقال 1 — تغذية -->
+      <div class="blog-card animate-on-scroll delay-1">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=600&q=80"
+            alt="أفضل الأطعمة لكلبك">
+          <!-- Overlay -->
+          <div class="blog-overlay">
+            <span class="ov-badge ov-gold">🍗 تغذية</span>
+            <div class="ov-title">أفضل الأطعمة لكلبك حسب سلالته وعمره</div>
+            <div class="ov-desc">
+              الجراء تحتاج بروتيناً أعلى، والكلاب الكبيرة تحتاج كالسيوم أكثر.
+              تعرّف على المكونات الضرورية في كل مرحلة لتضمن صحة كلبك على المدى الطويل.
+            </div>
+            <div class="ov-meta">✍️ لام مَي لينغ | 📅 10 يناير 2025</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-gold card-badge">تغذية</span>
+          <h3>أفضل الأطعمة لكلبك حسب سلالته وعمره</h3>
+          <p>دليل شامل لاختيار الغذاء المناسب لكلبك في كل مرحلة من مراحل حياته</p>
+          <div class="meta">✍️ لام مَي لينغ | 📅 10 يناير 2025</div>
+        </div>
+      </div>
+
+      <!-- مقال 2 — نشاط -->
+      <div class="blog-card animate-on-scroll delay-2">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=600&q=80"
+            alt="نشاط الكلب اليومي">
+          <div class="blog-overlay">
+            <span class="ov-badge ov-blue">🏃 نشاط</span>
+            <div class="ov-title">كم ساعة من النشاط يحتاج كلبك يومياً؟</div>
+            <div class="ov-desc">
+              الكلاب الصغيرة تكفيها 30 دقيقة، أما السلالات النشيطة كالهاسكي فتحتاج ساعتين أو أكثر.
+              النشاط الكافي يمنع القلق ويحسّن السلوك بشكل ملحوظ.
+            </div>
+            <div class="ov-meta">✍️ ييب مَان هُو | 📅 5 يناير 2025</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-blue card-badge">نشاط</span>
+          <h3>كم ساعة من النشاط يحتاج كلبك يومياً؟</h3>
+          <p>تعرف على احتياجات كلبك من الحركة والنشاط لضمان صحته ونشاطه</p>
+          <div class="meta">✍️ ييب مَان هُو | 📅 5 يناير 2025</div>
+        </div>
+      </div>
+
+      <!-- مقال 3 — صحة -->
+      <div class="blog-card animate-on-scroll delay-3">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&q=80"
+            alt="صحة الكلب">
+          <div class="blog-overlay">
+            <span class="ov-badge ov-cyan">🏥 صحة</span>
+            <div class="ov-title">علامات المرض عند الكلاب: متى تزور الطبيب البيطري؟</div>
+            <div class="ov-desc">
+              فقدان الشهية، الخمول المفاجئ، التقيؤ المتكرر، أو تغيّر لون اللثة — كلها علامات تستدعي
+              زيارة عاجلة للطبيب. الكشف المبكر يُنقذ حياة كلبك.
+            </div>
+            <div class="ov-meta">✍️ د. تشان وَاي مينغ | 📅 28 ديسمبر 2024</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-cyan card-badge">صحة</span>
+          <h3>علامات المرض عند الكلاب: متى تزور الطبيب البيطري؟</h3>
+          <p>دليل للتعرف على العلامات المبكرة للمرض وأهمية الزيارات الدورية</p>
+          <div class="meta">✍️ د. تشان وَاي مينغ | 📅 28 ديسمبر 2024</div>
+        </div>
+      </div>
+
+      <!-- مقال 4 — تجميل -->
+      <div class="blog-card animate-on-scroll delay-1">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=600&q=80"
+            alt="تجميل الكلب">
+          <div class="blog-overlay">
+            <span class="ov-badge ov-gold">✂️ تجميل</span>
+            <div class="ov-title">كيف تحضر كلبك لجلسة الحلاقة الأولى؟</div>
+            <div class="ov-desc">
+              ابدأ بتعوّده على لمس أقدامه وأذنيه في البيت، ثم قدّمه للمقص تدريجياً مع مكافآت.
+              الهدوء والصبر يجعلان أولى جلسات الحلاقة تجربةً ممتعة للجميع.
+            </div>
+            <div class="ov-meta">✍️ هو تشي كووَنغ | 📅 20 ديسمبر 2024</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-gold card-badge">تجميل</span>
+          <h3>كيف تحضر كلبك لجلسة الحلاقة الأولى؟</h3>
+          <p>نصائح لجعل تجربة الحلاقة ممتعة وسلسة لكلبك ولك</p>
+          <div class="meta">✍️ هو تشي كووَنغ | 📅 20 ديسمبر 2024</div>
+        </div>
+      </div>
+
+      <!-- مقال 5 — تدريب -->
+      <div class="blog-card animate-on-scroll delay-2">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://www.evcindex.com/wp-content/uploads/2017/04/%D9%85%D9%84%D9%81-%D8%AA%D8%AF%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D9%83%D9%84%D8%A7%D8%A8-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D8%AD%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AE%D8%AA%D9%84%D9%81%D8%A9.jpg"
+            alt="تدريب الكلب">
+          <div class="blog-overlay">
+            <span class="ov-badge ov-blue">🎓 تدريب</span>
+            <div class="ov-title">5 أوامر أساسية يجب تعليمها لكل كلب</div>
+            <div class="ov-desc">
+              اجلس، قف، تعال، انتظر، لا — هذه الأوامر الخمس تُشكّل أساس التواصل بينك وبين كلبك.
+              ابدأ بجلسات قصيرة 5 دقائق مع مكافآت فورية لنتائج أسرع.
+            </div>
+            <div class="ov-meta">✍️ نغ يوك تينغ | 📅 15 ديسمبر 2024</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-blue card-badge">تدريب</span>
+          <h3>5 أوامر أساسية يجب تعليمها لكل كلب</h3>
+          <p>الأوامر الأساسية التي تجعل حياتك مع كلبك أسهل وأكثر متعة</p>
+          <div class="meta">✍️ نغ يوك تينغ | 📅 15 ديسمبر 2024</div>
+        </div>
+      </div>
+
+      <!-- مقال 6 — رعاية -->
+      <div class="blog-card animate-on-scroll delay-3">
+        <div class="blog-img-wrap">
+          <img class="blog-img"
+            src="https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&q=80"
+            alt="حماية الكلب من الحرارة">
+          <div class="blog-overlay">
+            <span class="ov-badge ov-cyan">🌡️ رعاية</span>
+            <div class="ov-title">كيف تحمي كلبك من الحرارة الشديدة في الصيف؟</div>
+            <div class="ov-desc">
+              تجنّب المشي في الأسفلت الساخن بين 11 صباحاً و4 مساءً، وفّر ماءً باردًا دائماً،
+              ولا تترك كلبك في السيارة أبداً. ضربة الشمس قد تكون قاتلة خلال دقائق.
+            </div>
+            <div class="ov-meta">✍️ د. تشان وَاي مينغ | 📅 8 ديسمبر 2024</div>
+            <span class="ov-btn">اقرأ المقال ←</span>
+          </div>
+        </div>
+        <div class="blog-card-body">
+          <span class="badge badge-cyan card-badge">رعاية</span>
+          <h3>كيف تحمي كلبك من الحرارة الشديدة في الصيف؟</h3>
+          <p>نصائح ضرورية لحماية كلبك من ضربة الشمس والحرارة المفرطة</p>
+          <div class="meta">✍️ د. تشان وَاي مينغ | 📅 8 ديسمبر 2024</div>
+        </div>
+      </div>
+
+    </div><!-- /grid-3 -->
+
+    <div style="text-align:center;margin-top:3rem" class="animate-on-scroll">
+      <a href="#" class="btn btn-secondary btn-lg">تحميل المزيد من المقالات ↓</a>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section style="padding:4rem 0;background:linear-gradient(135deg,rgba(13,41,128,0.3),transparent);border-top:var(--border-card)">
+  <div class="container">
+    <div class="card animate-on-scroll" style="max-width:600px;margin:0 auto;text-align:center;padding:3rem">
+      <div style="font-size:3rem;margin-bottom:1rem">📧</div>
+      <h3 style="margin-bottom:0.8rem">اشترك في النشرة البريدية</h3>
+      <p style="color:var(--white-70);margin-bottom:1.5rem;font-size:0.9rem">احصل على أحدث النصائح والمقالات مباشرة في بريدك الإلكتروني</p>
+      <div style="display:flex;gap:0.8rem;flex-wrap:wrap;justify-content:center">
+        <input type="email" placeholder="أدخل بريدك الإلكتروني" class="form-control" style="max-width:280px">
+        <button class="btn btn-primary" onclick="DogHotel.showToast('✅ تم الاشتراك بنجاح!')">اشترك الآن</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← الرئيسية</a>
+      <a href="booking.html" class="btn btn-primary btn-sm">احجز الآن</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html> 

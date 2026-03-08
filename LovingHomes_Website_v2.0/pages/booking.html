@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>احجز الآن - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+  .music-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 1rem; background: rgba(59,111,255,0.12); border: 1px solid rgba(59,111,255,0.4); border-radius: 50px; color: #fff; cursor: pointer; font-size: 0.82rem; font-family: inherit; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; }
+  .music-btn:hover { background: rgba(59,111,255,0.25); border-color: rgba(0,212,255,0.7); box-shadow: 0 0 16px rgba(59,111,255,0.3); }
+  .music-btn.playing { border-color: rgba(0,212,255,0.8); background: rgba(0,212,255,0.12); }
+  .music-btn.playing .mico { animation: mBounce 0.5s ease-in-out infinite alternate; }
+  @keyframes mBounce { from{transform:scale(1)} to{transform:scale(1.35)} }
+  .mwaves { display:flex; align-items:center; gap:2px; height:14px; opacity:0; transition:opacity 0.3s; }
+  .music-btn.playing .mwaves { opacity:1; }
+  .mwaves b { display:block; width:3px; background:#00d4ff; border-radius:3px; animation:mWave 0.8s ease-in-out infinite alternate; }
+  .mwaves b:nth-child(1){height:4px;animation-delay:0s} .mwaves b:nth-child(2){height:10px;animation-delay:0.12s} .mwaves b:nth-child(3){height:14px;animation-delay:0.24s} .mwaves b:nth-child(4){height:8px;animation-delay:0.36s} .mwaves b:nth-child(5){height:4px;animation-delay:0.48s}
+  @keyframes mWave { from{transform:scaleY(1)} to{transform:scaleY(0.25)} }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<!-- الصوت الخلفي -->
+<audio id="bgMusic" loop>
+  <source src="sound/flora.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري تجهيز نموذج الحجز...</p>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <span class="mico" id="mico">🎵</span>
+    <span id="mlabel">flora.mp3</span>
+    <div class="mwaves"><b></b><b></b><b></b><b></b><b></b></div>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta active">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero" style="padding:7rem 0 3rem">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← الحجز</div>
+    <div class="section-tag animate-on-scroll">حجز سريع وآمن</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">احجز إقامة كلبك</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">خطوات بسيطة لضمان مكان مريح لصديقك المخلص</p>
+  </div>
+</div>
+
+<!-- Steps Indicator -->
+<section style="padding:1rem 0 0">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:1rem;flex-wrap:wrap" class="animate-on-scroll">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem">
+        <div style="width:40px;height:40px;background:var(--gradient-glow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;box-shadow:0 0 20px rgba(59,111,255,0.5)" id="step1Dot">1</div>
+        <div style="font-size:0.75rem;color:var(--cyan-accent)">معلوماتك</div>
+      </div>
+      <div style="width:60px;height:2px;background:rgba(59,111,255,0.3);margin-top:-1.2rem"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem">
+        <div style="width:40px;height:40px;background:var(--white-15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;border:1px solid rgba(59,111,255,0.3)" id="step2Dot">2</div>
+        <div style="font-size:0.75rem;color:var(--white-60)">بيانات الكلب</div>
+      </div>
+      <div style="width:60px;height:2px;background:rgba(59,111,255,0.2);margin-top:-1.2rem"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem">
+        <div style="width:40px;height:40px;background:var(--white-15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;border:1px solid rgba(59,111,255,0.3)" id="step3Dot">3</div>
+        <div style="font-size:0.75rem;color:var(--white-60)">اختيار الحزمة</div>
+      </div>
+      <div style="width:60px;height:2px;background:rgba(59,111,255,0.2);margin-top:-1.2rem"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0.3rem">
+        <div style="width:40px;height:40px;background:var(--white-15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;border:1px solid rgba(59,111,255,0.3)" id="step4Dot">4</div>
+        <div style="font-size:0.75rem;color:var(--white-60)">التأكيد</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:2rem">
+  <div class="container">
+    <div class="grid-2" style="gap:3rem;align-items:start">
+      <!-- Booking Form -->
+      <div class="animate-on-scroll">
+        <div id="step1" class="booking-step">
+          <div class="contact-form">
+            <h3 style="margin-bottom:1.5rem;color:var(--cyan-accent)">📋 معلوماتك الشخصية</h3>
+            <div class="form-group">
+              <label class="form-label">الاسم الكامل *</label>
+              <input type="text" class="form-control" id="ownerName" placeholder="محمد أحمد" required>
+            </div>
+            <div class="grid-2" style="gap:1rem">
+              <div class="form-group">
+                <label class="form-label">رقم الهاتف *</label>
+                <input type="tel" class="form-control" id="ownerPhone" placeholder="05xxxxxxxx" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">البريد الإلكتروني *</label>
+                <input type="email" class="form-control" id="ownerEmail" placeholder="email@example.com" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">الحي / المنطقة</label>
+              <input type="text" class="form-control" placeholder="حي العليا، هونغ كونغ">
+            </div>
+            <h3 style="margin:1.5rem 0;color:var(--cyan-accent)">🐕 بيانات كلبك</h3>
+            <div class="grid-2" style="gap:1rem">
+              <div class="form-group">
+                <label class="form-label">اسم الكلب *</label>
+                <input type="text" class="form-control" id="dogName" placeholder="ماكس، لونا..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">السلالة *</label>
+                <input type="text" class="form-control" placeholder="لابرادور، بودل..." required>
+              </div>
+            </div>
+            <div class="grid-2" style="gap:1rem">
+              <div class="form-group">
+                <label class="form-label">العمر</label>
+                <select class="form-control">
+                  <option>أقل من سنة</option>
+                  <option>1-3 سنوات</option>
+                  <option>3-7 سنوات</option>
+                  <option>أكثر من 7 سنوات</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">الوزن التقريبي</label>
+                <select class="form-control">
+                  <option>أقل من 5 كيلو</option>
+                  <option>5-15 كيلو</option>
+                  <option>15-30 كيلو</option>
+                  <option>أكثر من 30 كيلو</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">هل كلبك محصّن؟ *</label>
+              <select class="form-control" required>
+                <option value="">اختر...</option>
+                <option>نعم، محصن بالكامل</option>
+                <option>محصن جزئياً</option>
+                <option>لا، غير محصن</option>
+              </select>
+            </div>
+            <h3 style="margin:1.5rem 0;color:var(--cyan-accent)">📅 تفاصيل الإقامة</h3>
+            <div class="grid-2" style="gap:1rem">
+              <div class="form-group">
+                <label class="form-label">تاريخ الوصول *</label>
+                <input type="date" class="form-control" id="checkIn" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">تاريخ المغادرة *</label>
+                <input type="date" class="form-control" id="checkOut" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">الحزمة المختارة *</label>
+              <select class="form-control" id="package" required>
+                <option value="">اختر الحزمة</option>
+                <option value="day">حزمة اليوم - ٥٠ $/ليلة</option>
+                <option value="classic">الحزمة الكلاسيكية - ٨٠ $/ليلة</option>
+                <option value="premium">الحزمة المميزة - ١٢٠ $/ليلة</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">خدمة التوصيل</label>
+              <select class="form-control" id="delivery">
+                <option value="none">لا أحتاج التوصيل</option>
+                <option value="pickup">استقبال من منزلي فقط</option>
+                <option value="dropoff">إرجاع لمنزلي فقط</option>
+                <option value="both">ذهاب وإياب</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ملاحظات خاصة</label>
+              <textarea class="form-control" rows="3" placeholder="أي معلومات مهمة عن كلبك (حساسية، دواء، عادات خاصة...)"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center" onclick="submitBooking()">
+              🐾 تأكيد الحجز
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="animate-on-scroll delay-2">
+        <div style="background:var(--gradient-card);border:var(--border-card);border-radius:var(--radius-xl);padding:2rem;box-shadow:var(--shadow-card);position:sticky;top:90px">
+          <h3 style="margin-bottom:1.5rem;color:var(--cyan-accent)">📊 ملخص الحجز</h3>
+          <div id="bookingSummary">
+            <div style="text-align:center;padding:2rem;color:var(--white-40)">
+              <div style="font-size:3rem;margin-bottom:0.5rem">📋</div>
+              <p style="font-size:0.9rem">أكمل النموذج لرؤية ملخص الحجز</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="display:flex;flex-direction:column;gap:0.8rem">
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--white-70)">
+              <span>✅</span> حجز مجاني بدون دفع مسبق
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--white-70)">
+              <span>✅</span> إلغاء مجاني قبل 48 ساعة
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--white-70)">
+              <span>✅</span> تأكيد فوري عبر الهاتف
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--white-70)">
+              <span>✅</span> رعاية بيطرية 24/7
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="text-align:center">
+            <p style="font-size:0.8rem;color:var(--white-60)">لمساعدة فورية</p>
+            <a href="tel:+966500000000" class="btn btn-secondary btn-sm" style="margin-top:0.5rem">📞 اتصل بنا الآن</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← الرئيسية</a>
+      <a href="packages.html" class="btn btn-secondary btn-sm">استعرض الحزم</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+<script src="../js/audio.js"></script>
+<script>
+  const prices = { day: 50, classic: 80, premium: 120 };
+  const packageNames = { day: 'حزمة اليوم', classic: 'الحزمة الكلاسيكية', premium: 'الحزمة المميزة' };
+
+  function updateSummary() {
+    const name = document.getElementById('dogName')?.value;
+    const checkIn = document.getElementById('checkIn')?.value;
+    const checkOut = document.getElementById('checkOut')?.value;
+    const pkg = document.getElementById('package')?.value;
+
+    if (!checkIn || !checkOut || !pkg) return;
+
+    const start = new Date(checkIn);
+    const end = new Date(checkOut);
+    const nights = Math.max(1, Math.round((end - start) / (1000 * 60 * 60 * 24)));
+    const pricePerNight = prices[pkg] || 0;
+    const total = nights * pricePerNight;
+
+    document.getElementById('bookingSummary').innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        ${name ? `<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--white-70)">اسم الكلب</span><span style="font-weight:600">${name}</span></div>` : ''}
+        <div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--white-70)">الحزمة</span><span style="font-weight:600;color:var(--cyan-accent)">${packageNames[pkg]}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--white-70)">عدد الليالي</span><span style="font-weight:600">${nights} ليلة</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:0.9rem"><span style="color:var(--white-70)">السعر/ليلة</span><span>${pricePerNight} $</span></div>
+        <div style="height:1px;background:rgba(59,111,255,0.2)"></div>
+        <div style="display:flex;justify-content:space-between;font-size:1.1rem;font-weight:800">
+          <span>الإجمالي المتوقع</span>
+          <span style="color:var(--gold-accent)">${total} $</span>
+        </div>
+        <p style="font-size:0.75rem;color:var(--white-50);text-align:center">* السعر النهائي يُحدد بعد التأكيد</p>
+      </div>
+    `;
+  }
+
+  ['checkIn', 'checkOut', 'package', 'dogName'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.addEventListener('change', updateSummary); el.addEventListener('input', updateSummary); }
+  });
+
+  function submitBooking() {
+    const name = document.getElementById('ownerName')?.value;
+    const phone = document.getElementById('ownerPhone')?.value;
+    const email = document.getElementById('ownerEmail')?.value;
+    const dogName = document.getElementById('dogName')?.value;
+    const pkg = document.getElementById('package')?.value;
+    const checkIn = document.getElementById('checkIn')?.value;
+    const checkOut = document.getElementById('checkOut')?.value;
+
+    if (!name || !phone || !email || !dogName || !pkg || !checkIn || !checkOut) {
+      if (window.DogHotel?.showToast) {
+        DogHotel.showToast('⚠️ يرجى تعبئة جميع الحقول المطلوبة', 'error');
+      } else {
+        alert('يرجى تعبئة جميع الحقول المطلوبة');
+      }
+      return;
+    }
+
+    // تشغيل صوت النجاح
+    if (window.AudioSystem?.playSuccessSound) {
+      window.AudioSystem.playSuccessSound();
+    }
+
+    document.querySelector('.booking-step').innerHTML = `
+      <div style="text-align:center;padding:4rem 2rem;background:var(--gradient-card);border:var(--border-glow);border-radius:var(--radius-xl);box-shadow:var(--shadow-card)">
+        <div style="font-size:6rem;margin-bottom:1.5rem;animation:pawBounce 1s ease-in-out 3;filter:drop-shadow(0 0 30px rgba(0,212,255,0.6))">🐾</div>
+        <h2 style="color:var(--cyan-accent);margin-bottom:1rem">تم استلام طلب حجزك!</h2>
+        <p style="color:var(--white-70);line-height:2;margin-bottom:2rem">شكراً ${name}! سنتواصل معك خلال ساعتين على الرقم ${phone} لتأكيد حجز إقامة ${dogName}.</p>
+        <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);border-radius:var(--radius-md);padding:1.5rem;margin-bottom:2rem;text-align:right">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem"><span style="color:var(--white-70)">رقم الحجز:</span><span style="color:var(--gold-accent);font-weight:700">#DH${Math.floor(Math.random()*9000+1000)}</span></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--white-70)">الحالة:</span><span style="color:var(--cyan-accent)">بانتظار التأكيد</span></div>
+        </div>
+        <a href="index.html" class="btn btn-primary btn-lg">العودة للرئيسية</a>
+      </div>
+    `;
+    if (window.DogHotel?.showToast) {
+      DogHotel.showToast('✅ تم إرسال طلب الحجز بنجاح!', 'success');
+    }
+  }
+</script>
+</body>
+</html>

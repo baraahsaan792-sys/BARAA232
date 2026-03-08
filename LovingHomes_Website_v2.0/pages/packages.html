@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الحزم - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .pkg-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    @media(max-width:900px){ .pkg-wrap { grid-template-columns:1fr; } }
+
+    .pkg-card {
+      background: linear-gradient(145deg, rgba(13,41,128,0.55), rgba(4,13,42,0.92));
+      border: 1px solid rgba(59,111,255,0.25);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s;
+      box-shadow: 0 20px 60px rgba(2,8,24,.8), 0 0 40px rgba(59,111,255,.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .pkg-card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, #1a3fb5, #00d4ff);
+      opacity:0;
+      transition: opacity .4s;
+    }
+    .pkg-card:hover { transform: translateY(-12px); box-shadow: 0 40px 100px rgba(2,8,24,.9), 0 0 80px rgba(59,111,255,.25); }
+    .pkg-card:hover::before { opacity:1; }
+    .pkg-card.featured {
+      border-color: rgba(0,212,255,.5);
+      background: linear-gradient(145deg, rgba(13,41,128,.8), rgba(0,212,255,.06));
+      transform: scale(1.03);
+    }
+    .pkg-card.featured:hover { transform: scale(1.03) translateY(-12px); }
+
+    .pkg-ribbon {
+      position: absolute;
+      top: 1.4rem; left: 1.4rem;
+      padding: .3rem 1rem;
+      border-radius: 40px;
+      font-size: .73rem;
+      font-weight: 800;
+    }
+    .pkg-ribbon.blue { background: linear-gradient(135deg,#1a3fb5,#00d4ff); color:#fff; }
+    .pkg-ribbon.gold { background: linear-gradient(135deg,#ffc947,#ff9f43); color:#020818; }
+
+    .pkg-icon-wrap {
+      width: 70px; height: 70px;
+      border-radius: 20px;
+      background: linear-gradient(135deg,#1a3fb5,#00d4ff);
+      display:flex; align-items:center; justify-content:center;
+      font-size: 2rem;
+      box-shadow: 0 8px 25px rgba(34,85,232,.45);
+      margin-bottom: 1.4rem;
+      margin-top: .5rem;
+      transition: transform .35s, box-shadow .35s;
+    }
+    .pkg-card:hover .pkg-icon-wrap { transform: scale(1.12) rotate(6deg); box-shadow: 0 14px 38px rgba(34,85,232,.65); }
+
+    .pkg-name { font-size: 1.45rem; font-weight: 800; color: #fff; margin-bottom: .35rem; }
+    .pkg-tagline { font-size: .82rem; color: rgba(255,255,255,.55); margin-bottom: 1.4rem; }
+
+    .pkg-price-row {
+      display: flex;
+      align-items: flex-end;
+      gap: .4rem;
+      margin-bottom: 1.6rem;
+    }
+    .pkg-currency { font-size: 1.3rem; font-weight: 700; color: #00d4ff; margin-bottom: .35rem; }
+    .pkg-amount   { font-size: 3.2rem; font-weight: 900; color: #fff; line-height: 1; }
+    .pkg-period   { font-size: .85rem; color: rgba(255,255,255,.5); margin-bottom: .4rem; }
+
+    .pkg-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59,111,255,.4), transparent);
+      margin-bottom: 1.5rem;
+    }
+
+    .pkg-section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #00d4ff;
+      margin: 1rem 0 .55rem;
+      opacity: .8;
+    }
+
+    .pkg-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .pkg-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: .6rem;
+      font-size: .875rem;
+      color: rgba(255,255,255,.8);
+      line-height: 1.5;
+    }
+    .pkg-features li .chk {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(0,212,255,.18);
+      border: 1px solid rgba(0,212,255,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; color: #00d4ff;
+      margin-top: 1px;
+    }
+
+    .shared-amenities {
+      background: linear-gradient(145deg, rgba(7,21,64,.6), rgba(4,13,42,.8));
+      border: 1px solid rgba(59,111,255,.2);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .shared-amenities h3 { font-size:1.15rem; color: #00d4ff; margin-bottom:1.2rem; }
+    .amenities-chips { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .45rem 1rem;
+      background: rgba(59,111,255,.12);
+      border: 1px solid rgba(59,111,255,.28);
+      border-radius: 40px;
+      font-size: .82rem;
+      color: rgba(255,255,255,.85);
+      transition: all .25s;
+    }
+    .chip:hover { background: rgba(0,212,255,.15); border-color: rgba(0,212,255,.4); transform: translateY(-2px); }
+
+    .custom-banner {
+      background: linear-gradient(135deg, rgba(13,41,128,.6), rgba(0,212,255,.06));
+      border: 1px solid rgba(0,212,255,.35);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html" class="active">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← الحزم</div>
+    <div class="section-tag animate-on-scroll">خطط الإقامة</div>
+    <h1 class="hero-title animate-on-scroll delay-1">
+      <span class="line-1">اختر حزمة</span>
+      <span class="line-2">إقامة كلبك</span>
+    </h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">ثلاث حزم مصممة بعناية — من الراحة الأساسية إلى الرفاهية القصوى</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+
+    <!-- SHARED AMENITIES -->
+    <div class="shared-amenities animate-on-scroll">
+      <h3>🏠 المرافق المتاحة في جميع الحزم</h3>
+      <div class="amenities-chips">
+        <div class="chip"><span>🌡️</span> غرف بتدفئة/تبريد تحت الأرضية</div>
+        <div class="chip"><span>📺</span> تلفزيون في الغرفة</div>
+        <div class="chip"><span>🌿</span> مراعي خارجية آمنة</div>
+        <div class="chip"><span>🏥</span> رعاية بيطرية 24/7</div>
+        <div class="chip"><span>🚗</span> خدمة التوصيل من وإلى المكان</div>
+        <div class="chip"><span>🏟️</span> حظيرة لعب داخلية</div>
+        <div class="chip"><span>📶</span> واي فاي</div>
+      </div>
+    </div>
+
+    <!-- PACKAGES TITLE -->
+    <div class="section-header" style="margin-bottom:2.5rem">
+      <div class="section-tag animate-on-scroll">الحزم الثلاث</div>
+      <h2 class="section-title animate-on-scroll delay-1">اختر ما <span class="highlight">يناسب كلبك</span></h2>
+    </div>
+
+    <div class="pkg-wrap">
+
+      <!-- PACKAGE 1: DAY -->
+      <div class="pkg-card animate-on-scroll delay-1">
+        <div class="pkg-icon-wrap">🌙</div>
+        <div class="pkg-name">حزمة اليوم</div>
+        <div class="pkg-tagline">الخيار الأساسي للإقامة القصيرة</div>
+        <div class="pkg-price-row">
+          <span class="pkg-currency">$</span>
+          <span class="pkg-amount">50</span>
+          <span class="pkg-period">/ ليلة</span>
+        </div>
+        <div class="pkg-divider"></div>
+
+        <div class="pkg-section-label">الأنشطة اليومية</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> المشي مرتين يومياً</li>
+          <li><span class="chk">✓</span> منطقة لعب خارجية</li>
+          <li><span class="chk">✓</span> مسار اللياقة البدنية</li>
+          <li><span class="chk">✓</span> حفر حفرة في الرمل</li>
+        </ul>
+
+        <div class="pkg-section-label">المرافق المشمولة</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> وجبات غذائية متوازنة</li>
+          <li><span class="chk">✓</span> فحص صحي يومي</li>
+          <li><span class="chk">✓</span> جميع المرافق الأساسية</li>
+        </ul>
+
+        <a href="booking.html" class="btn btn-secondary" style="width:100%;justify-content:center;margin-top:auto">احجز هذه الحزمة</a>
+      </div>
+
+      <!-- PACKAGE 2: CLASSIC -->
+      <div class="pkg-card featured animate-on-scroll delay-2">
+        <div class="pkg-ribbon blue">⭐ الأكثر طلباً</div>
+        <div class="pkg-icon-wrap" style="background:linear-gradient(135deg,#0a1f5c,#00d4ff)">🏅</div>
+        <div class="pkg-name">الكلاسيكية</div>
+        <div class="pkg-tagline">تجربة متكاملة تجمع النشاط والراحة</div>
+        <div class="pkg-price-row">
+          <span class="pkg-currency">$</span>
+          <span class="pkg-amount">80</span>
+          <span class="pkg-period">/ ليلة</span>
+        </div>
+        <div class="pkg-divider"></div>
+
+        <div class="pkg-section-label">الأنشطة اليومية</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> المشي ثلاث مرات / ثلاثة أنشطة يومياً</li>
+          <li><span class="chk">✓</span> حظيرة لعب داخلية</li>
+          <li><span class="chk">✓</span> منطقة للاسترخاء</li>
+          <li><span class="chk">✓</span> جلسة حلاقة وتنظيف</li>
+        </ul>
+
+        <div class="pkg-section-label">المزايا الإضافية</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> تحديثات / صور يومية</li>
+          <li><span class="chk">✓</span> وجبات متنوعة ومتوازنة</li>
+          <li><span class="chk">✓</span> تقرير صحي أسبوعي</li>
+          <li><span class="chk">✓</span> جميع المرافق الأساسية</li>
+        </ul>
+
+        <a href="booking.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:auto">احجز هذه الحزمة</a>
+      </div>
+
+      <!-- PACKAGE 3: PREMIUM -->
+      <div class="pkg-card animate-on-scroll delay-3">
+        <div class="pkg-ribbon gold">👑 الأفضل</div>
+        <div class="pkg-icon-wrap" style="background:linear-gradient(135deg,#ffc947,#ff9f43)">💎</div>
+        <div class="pkg-name">المميزة</div>
+        <div class="pkg-tagline">إقامة فاخرة — لأن كلبك يستحق الأفضل</div>
+        <div class="pkg-price-row">
+          <span class="pkg-currency">$</span>
+          <span class="pkg-amount">120</span>
+          <span class="pkg-period">/ ليلة</span>
+        </div>
+        <div class="pkg-divider"></div>
+
+        <div class="pkg-section-label">الأنشطة اليومية</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> المشي أربع مرات / أربعة أنشطة يومياً</li>
+          <li><span class="chk">✓</span> مساحة عشب خاصة</li>
+          <li><span class="chk">✓</span> تحديثات / صور يومية</li>
+          <li><span class="chk">✓</span> جلسة حلاقة وتنظيف شاملة</li>
+        </ul>
+
+        <div class="pkg-section-label">المزايا الإضافية</div>
+        <ul class="pkg-features">
+          <li><span class="chk">✓</span> وجبات فاخرة مخصصة</li>
+          <li><span class="chk">✓</span> جلسة تدليك واسترخاء</li>
+          <li><span class="chk">✓</span> توصيل ذهاباً وإياباً مجاناً</li>
+          <li><span class="chk">✓</span> جميع المرافق الأساسية</li>
+        </ul>
+
+        <a href="booking.html" class="btn btn-gold" style="width:100%;justify-content:center;margin-top:auto">احجز هذه الحزمة</a>
+      </div>
+
+    </div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="section-header" style="margin-bottom:2rem">
+      <div class="section-tag animate-on-scroll">مقارنة شاملة</div>
+      <h2 class="section-title animate-on-scroll delay-1">ما الفرق <span class="highlight">بين الحزم؟</span></h2>
+    </div>
+    <div style="overflow-x:auto" class="animate-on-scroll">
+      <table style="width:100%;border-collapse:collapse;background:var(--gradient-card);border:var(--border-card);border-radius:var(--radius-lg);overflow:hidden">
+        <thead>
+          <tr style="background:rgba(13,41,128,0.5)">
+            <th style="padding:1rem 1.5rem;text-align:right;color:var(--white-70);font-size:.9rem">الميزة</th>
+            <th style="padding:1rem;text-align:center;color:var(--white)">اليوم<br><small style="color:rgba(255,255,255,.45)">$50</small></th>
+            <th style="padding:1rem;text-align:center;color:var(--cyan-accent)">الكلاسيكية<br><small style="color:rgba(255,255,255,.45)">$80</small></th>
+            <th style="padding:1rem;text-align:center;color:var(--gold-accent)">المميزة<br><small style="color:rgba(255,255,255,.45)">$120</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:var(--border-card)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">جلسات المشي / الأنشطة اليومية</td>
+            <td style="padding:.9rem;text-align:center">مرتان</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">3 مرات</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">4 مرات</td>
+          </tr>
+          <tr style="border-top:var(--border-card);background:rgba(255,255,255,.02)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">حظيرة لعب داخلية</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">✓</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">✓</td>
+          </tr>
+          <tr style="border-top:var(--border-card)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">منطقة الاسترخاء</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">✓</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">✓</td>
+          </tr>
+          <tr style="border-top:var(--border-card);background:rgba(255,255,255,.02)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">جلسة حلاقة وتنظيف</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">✓</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">✓</td>
+          </tr>
+          <tr style="border-top:var(--border-card)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">تحديثات / صور يومية</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">✓</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">✓</td>
+          </tr>
+          <tr style="border-top:var(--border-card);background:rgba(255,255,255,.02)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">مساحة عشب خاصة</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--white-40)">✗</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">✓</td>
+          </tr>
+          <tr style="border-top:var(--border-card)">
+            <td style="padding:.9rem 1.5rem;color:var(--white-70)">خدمة التوصيل</td>
+            <td style="padding:.9rem;text-align:center">بتكلفة</td>
+            <td style="padding:.9rem;text-align:center;color:var(--cyan-accent)">بتكلفة</td>
+            <td style="padding:.9rem;text-align:center;color:var(--gold-accent)">مجاناً</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CUSTOM PACKAGES -->
+    <div class="custom-banner animate-on-scroll">
+      <div style="font-size:3.5rem;margin-bottom:1rem;filter:drop-shadow(0 0 20px rgba(255,201,71,.5))">⭐</div>
+      <h2 class="section-title" style="margin-bottom:1rem">حزم <span class="highlight">مخصصة</span></h2>
+      <p style="color:var(--white-70);max-width:620px;margin:0 auto 1rem;line-height:2;font-size:.95rem">
+        تتوفر حزم مخصصة للإقامات الطويلة أو للكلاب ذات المتطلبات الإضافية. يجب التواصل معنا للحصول على عرض مناسب.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem">
+        <a href="contact.html" class="btn btn-secondary btn-lg">📞 اطلب عرضاً مخصصاً</a>
+        <a href="booking.html" class="btn btn-primary btn-lg">📅 احجز الآن</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:1rem"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+        <p>نوفر أرقى تجربة رعاية لكلبك في هونغ كونغ — في بيئة آمنة ومحبة.</p>
+      </div>
+      <div>
+        <div class="footer-heading">الصفحات</div>
+        <ul class="footer-links">
+          <li><a href="index.html">الرئيسية</a></li>
+          <li><a href="about.html">من نحن</a></li>
+          <li><a href="services.html">الخدمات</a></li>
+          <li><a href="packages.html">الحزم</a></li>
+          <li><a href="gallery.html">معرض الصور</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">المزيد</div>
+        <ul class="footer-links">
+          <li><a href="team.html">فريقنا</a></li>
+          <li><a href="testimonials.html">آراء العملاء</a></li>
+          <li><a href="faq.html">الأسئلة الشائعة</a></li>
+          <li><a href="blog.html">المدونة</a></li>
+          <li><a href="contact.html">تواصل معنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">تواصل معنا</div>
+        <ul class="footer-links">
+          <li><a href="tel:+85212345678">📞 +852 1234 5678</a></li>
+          <li><a href="/cdn-cgi/l/email-protection#8ce5e2eae3cce0e3fae5e2ebe4e3e1e9ffa2e4e7">✉️ <span class="__cf_email__" data-cfemail="e68f888089a68a89908f88818e898b8395c88e8d">[email&#160;protected]</span></a></li>
+          <li><a href="#">📍 هونغ كونغ</a></li>
+          <li><a href="#">🕐 24/7 على مدار الساعة</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+      <div class="footer-social">
+        <div class="social-btn">📷</div>
+        <div class="social-btn">🐦</div>
+        <div class="social-btn">💬</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

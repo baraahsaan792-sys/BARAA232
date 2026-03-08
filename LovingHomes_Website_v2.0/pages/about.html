@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من نحن - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+  /* زر الموسيقى */
+  .music-btn {
+    display: flex; align-items: center; gap: 0.45rem;
+    padding: 0.4rem 1rem;
+    background: rgba(59,111,255,0.12);
+    border: 1px solid rgba(59,111,255,0.4);
+    border-radius: 50px;
+    color: #fff; cursor: pointer;
+    font-size: 0.82rem; font-family: inherit;
+    transition: all 0.25s; white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .music-btn:hover {
+    background: rgba(59,111,255,0.25);
+    border-color: rgba(0,212,255,0.7);
+    box-shadow: 0 0 16px rgba(59,111,255,0.3);
+  }
+  .music-btn.playing { border-color: rgba(0,212,255,0.8); background: rgba(0,212,255,0.12); }
+  .music-btn.playing .mico { animation: mBounce 0.5s ease-in-out infinite alternate; }
+  @keyframes mBounce { from{transform:scale(1)} to{transform:scale(1.35)} }
+  .mwaves { display:flex; align-items:center; gap:2px; height:14px; opacity:0; transition:opacity 0.3s; }
+  .music-btn.playing .mwaves { opacity:1; }
+  .mwaves b { display:block; width:3px; background:#00d4ff; border-radius:3px; animation:mWave 0.8s ease-in-out infinite alternate; }
+  .mwaves b:nth-child(1){height:4px;animation-delay:0s}
+  .mwaves b:nth-child(2){height:10px;animation-delay:0.12s}
+  .mwaves b:nth-child(3){height:14px;animation-delay:0.24s}
+  .mwaves b:nth-child(4){height:8px;animation-delay:0.36s}
+  .mwaves b:nth-child(5){height:4px;animation-delay:0.48s}
+  @keyframes mWave { from{transform:scaleY(1)} to{transform:scaleY(0.25)} }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<!-- الصوت الخلفي -->
+<audio id="bgMusic" loop>
+  <source src="sound/flora.mp3" type="audio/mpeg">
+</audio>
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+
+  <!-- ══ زر الموسيقى ══ -->
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <span class="mico" id="mico">🎵</span>
+    <span id="mlabel">flora.mp3</span>
+    <div class="mwaves"><b></b><b></b><b></b><b></b><b></b></div>
+  </button>
+
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html" class="active">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← من نحن</div>
+    <div class="section-tag animate-on-scroll">قصتنا</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">من نحن؟</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">فريق متخصص يجمعه شغف حقيقي برعاية الكلاب وتوفير أفضل تجربة لها</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="align-items:center;gap:4rem">
+      <div class="animate-on-scroll">
+        <div class="section-tag">رسالتنا</div>
+        <h2 class="section-title" style="margin-bottom:1.5rem">نؤمن أن كل كلب <span class="highlight">يستحق الأفضل</span></h2>
+        <p style="color:var(--white-70);line-height:2;margin-bottom:1.5rem">بدأنا رحلتنا عام 2019 بحلم بسيط: توفير مكان آمن ومريح لكلاب المنطقة حين يسافر أصحابها. اليوم، أصبحنا الوجهة الأولى لأكثر من 500 صاحب كلب يثقون بنا ويعودون إلينا مراراً.</p>
+        <p style="color:var(--white-70);line-height:2;margin-bottom:2rem">كل عضو في فريقنا يحمل شهادة متخصصة في رعاية الحيوانات ويمتلك شغفاً حقيقياً بتوفير أفضل رعاية ممكنة. لأننا نعرف أن كلبك ليس مجرد حيوان أليف، بل هو فرد من عائلتك.</p>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap">
+          <div style="padding:1rem 1.5rem;background:var(--white-04);border:var(--border-card);border-radius:var(--radius-md);text-align:center">
+            <div style="font-size:1.8rem;font-weight:900;color:var(--cyan-accent)">2019</div>
+            <div style="font-size:0.8rem;color:var(--white-60)">سنة التأسيس</div>
+          </div>
+          <div style="padding:1rem 1.5rem;background:var(--white-04);border:var(--border-card);border-radius:var(--radius-md);text-align:center">
+            <div style="font-size:1.8rem;font-weight:900;color:var(--cyan-accent)">15+</div>
+            <div style="font-size:0.8rem;color:var(--white-60)">متخصص</div>
+          </div>
+          <div style="padding:1rem 1.5rem;background:var(--white-04);border:var(--border-card);border-radius:var(--radius-md);text-align:center">
+            <div style="font-size:1.8rem;font-weight:900;color:var(--cyan-accent)">500+</div>
+            <div style="font-size:0.8rem;color:var(--white-60)">عميل</div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-on-scroll delay-2">
+        <div style="background:var(--gradient-card);border:var(--border-card);border-radius:var(--radius-xl);padding:3rem;text-align:center;box-shadow:var(--shadow-card)">
+          <div style="font-size:8rem;filter:drop-shadow(0 0 40px rgba(59,111,255,0.6));animation:orbFloat 4s ease-in-out infinite">🐕</div>
+          <p style="color:var(--white-70);margin-top:1rem;font-size:1.05rem;line-height:1.8">نؤمن أن الكلاب تستحق نفس مستوى الرعاية والاهتمام الذي يتوقعه البشر في أفخم الفنادق</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">قيمنا</div>
+      <h2 class="section-title animate-on-scroll delay-1">ما الذي <span class="highlight">يميزنا؟</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="card animate-on-scroll delay-1">
+        <div class="card-icon">❤️</div>
+        <h3 class="card-title">الحب والشغف</h3>
+        <p class="card-text">كل فرد في فريقنا يحب الكلاب بشكل حقيقي ويتعامل مع كل كلب كأنه كلبه الخاص</p>
+      </div>
+      <div class="card animate-on-scroll delay-2">
+        <div class="card-icon">🔬</div>
+        <h3 class="card-title">الخبرة المتخصصة</h3>
+        <p class="card-text">فريق من أطباء البيطرة والمدربين المعتمدين لضمان أفضل رعاية علمية وعملية</p>
+      </div>
+      <div class="card animate-on-scroll delay-3">
+        <div class="card-icon">🛡️</div>
+        <h3 class="card-title">الأمان والثقة</h3>
+        <p class="card-text">نظام أمني متكامل وكاميرات مراقبة على مدار الساعة لضمان سلامة كلبك دائماً</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="text-align:center">
+    <div class="animate-on-scroll">
+      <h2 class="section-title" style="margin-bottom:1.5rem">مرخصون ومعتمدون <span class="highlight">بالكامل</span></h2>
+      <p style="color:var(--white-70);max-width:600px;margin:0 auto 2rem;line-height:2">نحمل جميع التراخيص اللازمة من وزارة البيئة والمياه والزراعة، ونلتزم بأعلى معايير الرعاية البيطرية والسلامة الحيوانية</p>
+      <div style="display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap">
+        <div style="padding:1.5rem 2rem;background:var(--white-04);border:1px solid rgba(255,201,71,0.3);border-radius:var(--radius-md)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">🏆</div>
+          <div style="font-weight:700;color:var(--gold-accent)">مرخص بيطرياً</div>
+        </div>
+        <div style="padding:1.5rem 2rem;background:var(--white-04);border:1px solid rgba(0,212,255,0.3);border-radius:var(--radius-md)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">✅</div>
+          <div style="font-weight:700;color:var(--cyan-accent)">معايير دولية</div>
+        </div>
+        <div style="padding:1.5rem 2rem;background:var(--white-04);border:1px solid rgba(34,85,232,0.3);border-radius:var(--radius-md)">
+          <div style="font-size:2rem;margin-bottom:0.5rem">🌟</div>
+          <div style="font-weight:700;color:var(--blue-neon)">تقييم 5 نجوم</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← العودة للرئيسية</a>
+      <a href="contact.html" class="btn btn-primary btn-sm">تواصل معنا</a>
+      <a href="booking.html" class="btn btn-gold btn-sm">احجز الآن</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+<script src="../js/audio.js"></script>
+</body>
+</html>
