@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تواصل معنا - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+  .music-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 1rem; background: rgba(59,111,255,0.12); border: 1px solid rgba(59,111,255,0.4); border-radius: 50px; color: #fff; cursor: pointer; font-size: 0.82rem; font-family: inherit; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; }
+  .music-btn:hover { background: rgba(59,111,255,0.25); border-color: rgba(0,212,255,0.7); box-shadow: 0 0 16px rgba(59,111,255,0.3); }
+  .music-btn.playing { border-color: rgba(0,212,255,0.8); background: rgba(0,212,255,0.12); }
+  .music-btn.playing .mico { animation: mBounce 0.5s ease-in-out infinite alternate; }
+  @keyframes mBounce { from{transform:scale(1)} to{transform:scale(1.35)} }
+  .mwaves { display:flex; align-items:center; gap:2px; height:14px; opacity:0; transition:opacity 0.3s; }
+  .music-btn.playing .mwaves { opacity:1; }
+  .mwaves b { display:block; width:3px; background:#00d4ff; border-radius:3px; animation:mWave 0.8s ease-in-out infinite alternate; }
+  .mwaves b:nth-child(1){height:4px;animation-delay:0s} .mwaves b:nth-child(2){height:10px;animation-delay:0.12s} .mwaves b:nth-child(3){height:14px;animation-delay:0.24s} .mwaves b:nth-child(4){height:8px;animation-delay:0.36s} .mwaves b:nth-child(5){height:4px;animation-delay:0.48s}
+  @keyframes mWave { from{transform:scaleY(1)} to{transform:scaleY(0.25)} }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<!-- الصوت الخلفي -->
+<audio id="bgMusic" loop>
+  <source src="sound/flora.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <span class="mico" id="mico">🎵</span>
+    <span id="mlabel">flora.mp3</span>
+    <div class="mwaves"><b></b><b></b><b></b><b></b><b></b></div>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html" class="active">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← تواصل معنا</div>
+    <div class="section-tag animate-on-scroll">نحن هنا دائماً</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">تواصل معنا</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">هل لديك سؤال أو تريد معرفة المزيد؟ نحن هنا للمساعدة</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:3rem">
+      <!-- Contact Form -->
+      <div class="animate-on-scroll">
+        <h2 class="section-title" style="margin-bottom:2rem">أرسل لنا <span class="highlight">رسالة</span></h2>
+        <div class="contact-form">
+          <div class="grid-2" style="gap:1rem">
+            <div class="form-group">
+              <label class="form-label">الاسم الكامل *</label>
+              <input type="text" class="form-control" id="senderName" placeholder="محمد أحمد" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف *</label>
+              <input type="tel" class="form-control" id="senderPhone" placeholder="07xxxxxxxx" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">البريد الإلكتروني *</label>
+            <input type="email" class="form-control" id="senderEmail" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">موضوع الرسالة</label>
+            <select class="form-control" id="messageSubject">
+              <option value="">اختر موضوعاً</option>
+              <option>استفسار عن الحزم</option>
+              <option>حجز إقامة</option>
+              <option>معلومات عن الخدمات</option>
+              <option>شكوى أو اقتراح</option>
+              <option>معلومات عامة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">رسالتك *</label>
+            <textarea class="form-control" id="messageText" rows="5" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem" onclick="sendMessage()">
+            📤 إرسال الرسالة
+          </button>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="animate-on-scroll delay-2">
+        <h2 class="section-title" style="margin-bottom:2rem">معلومات <span class="highlight">التواصل</span></h2>
+        <div style="display:flex;flex-direction:column;gap:1.2rem;margin-bottom:2.5rem">
+          <div class="amenity-item">
+            <div class="amenity-emoji">📞</div>
+            <div class="amenity-info">
+              <h4>الهاتف</h4>
+              <p><a href="tel:+962781521698" style="color:var(--cyan-accent)">0781521698</a></p>
+            </div>
+          </div>
+          <div class="amenity-item">
+            <div class="amenity-emoji">💬</div>
+            <div class="amenity-info">
+              <h4>واتساب</h4>
+              <p><a href="https://wa.me/962781521698" style="color:var(--cyan-accent)">تواصل عبر واتساب</a></p>
+            </div>
+          </div>
+          <div class="amenity-item">
+            <div class="amenity-emoji">✉️</div>
+            <div class="amenity-info">
+              <h4>البريد الإلكتروني</h4>
+              <p><a href="/cdn-cgi/l/email-protection#e78e898188a78b88918e89808f888a8294c98f8c" style="color:var(--cyan-accent)"><span class="__cf_email__" data-cfemail="e881868e87a884879e81868f8087858d9bc68083">[email&#160;protected]</span></a></p>
+            </div>
+          </div>
+          <div class="amenity-item">
+            <div class="amenity-emoji">📍</div>
+            <div class="amenity-info">
+              <h4>الموقع</h4>
+              <p>هونغ كونغ</p>
+            </div>
+          </div>
+          <div class="amenity-item">
+            <div class="amenity-emoji">🕐</div>
+            <div class="amenity-info">
+              <h4>أوقات العمل للتواصل</h4>
+              <p>السبت - الخميس: 8 صباحاً - 10 مساءً<br>الجمعة: 2 ظهراً - 10 مساءً</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div style="background:var(--gradient-card);border:var(--border-card);border-radius:var(--radius-lg);padding:1rem;text-align:center;box-shadow:var(--shadow-card)">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.335824519634!2d114.1694!3d22.3193!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDE5JzEzLjAiTiAxMTTCsDEwJzAzLjYiRQ!5e0!3m2!1sen!2shk!4v1234567890"
+            width="100%" 
+            height="250" 
+            style="border:0;border-radius:var(--radius-md)" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+          <div style="margin-top:1rem">
+            <a href="https://www.google.com/maps/place/Hong+Kong" target="_blank" class="btn btn-primary btn-sm">افتح في خرائط جوجل ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Media -->
+<section style="padding:4rem 0;background:linear-gradient(135deg,rgba(13,41,128,0.2),transparent);border-top:var(--border-card)">
+  <div class="container" style="text-align:center">
+    <div class="animate-on-scroll">
+      <h3 style="margin-bottom:1.5rem;font-size:1.3rem">تابعنا على <span style="color:var(--cyan-accent)">وسائل التواصل</span></h3>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-secondary" style="gap:0.5rem">📷 انستغرام</button>
+        <button class="btn btn-secondary" style="gap:0.5rem">🐦 تويتر / X</button>
+        <button class="btn btn-secondary" style="gap:0.5rem">👍 فيسبوك</button>
+        <button class="btn btn-secondary" style="gap:0.5rem">▶️ يوتيوب</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← الرئيسية</a>
+      <a href="booking.html" class="btn btn-primary btn-sm">احجز الآن</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="../js/main.js"></script>
+<script src="../js/audio.js"></script>
+<script>
+  function sendMessage() {
+    const name = document.getElementById('senderName')?.value;
+    const phone = document.getElementById('senderPhone')?.value;
+    const email = document.getElementById('senderEmail')?.value;
+    const message = document.getElementById('messageText')?.value;
+
+    if (!name || !phone || !email || !message) {
+      if (window.DogHotel?.showToast) {
+        DogHotel.showToast('⚠️ يرجى تعبئة جميع الحقول المطلوبة', 'error');
+      } else {
+        alert('يرجى تعبئة جميع الحقول المطلوبة');
+      }
+      return;
+    }
+
+    // تشغيل صوت النجاح
+    if (window.AudioSystem?.playSuccessSound) {
+      window.AudioSystem.playSuccessSound();
+    }
+
+    // إظهار رسالة النجاح
+    document.querySelector('.contact-form').innerHTML = `
+      <div style="text-align:center;padding:3rem 2rem;background:var(--gradient-card);border:var(--border-glow);border-radius:var(--radius-xl);box-shadow:var(--shadow-card)">
+        <div style="font-size:5rem;margin-bottom:1.5rem;filter:drop-shadow(0 0 30px rgba(0,212,255,0.6))">✅</div>
+        <h2 style="color:var(--cyan-accent);margin-bottom:1rem">شكراً لك ${name}!</h2>
+        <p style="color:var(--white-70);line-height:2;margin-bottom:2rem">تم إرسال رسالتك بنجاح. سنتواصل معك قريباً على الرقم ${phone}</p>
+        <a href="contact.html" 

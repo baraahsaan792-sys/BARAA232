@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loving Homes - الرعاية المثلى لكلبك</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+  .music-btn { display: flex; align-items: center; gap: 0.45rem; padding: 0.4rem 1rem; background: rgba(59,111,255,0.12); border: 1px solid rgba(59,111,255,0.4); border-radius: 50px; color: #fff; cursor: pointer; font-size: 0.82rem; font-family: inherit; transition: all 0.25s; white-space: nowrap; flex-shrink: 0; }
+  .music-btn:hover { background: rgba(59,111,255,0.25); border-color: rgba(0,212,255,0.7); box-shadow: 0 0 16px rgba(59,111,255,0.3); }
+  .music-btn.playing { border-color: rgba(0,212,255,0.8); background: rgba(0,212,255,0.12); }
+  .music-btn.playing .mico { animation: mBounce 0.5s ease-in-out infinite alternate; }
+  @keyframes mBounce { from{transform:scale(1)} to{transform:scale(1.35)} }
+  .mwaves { display:flex; align-items:center; gap:2px; height:14px; opacity:0; transition:opacity 0.3s; }
+  .music-btn.playing .mwaves { opacity:1; }
+  .mwaves b { display:block; width:3px; background:#00d4ff; border-radius:3px; animation:mWave 0.8s ease-in-out infinite alternate; }
+  .mwaves b:nth-child(1){height:4px;animation-delay:0s} .mwaves b:nth-child(2){height:10px;animation-delay:0.12s} .mwaves b:nth-child(3){height:14px;animation-delay:0.24s} .mwaves b:nth-child(4){height:8px;animation-delay:0.36s} .mwaves b:nth-child(5){height:4px;animation-delay:0.48s}
+  @keyframes mWave { from{transform:scaleY(1)} to{transform:scaleY(0.25)} }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<!-- الصوت الخلفي -->
+<audio id="bgMusic" loop>
+  <source src="sound/flora.mp3" type="audio/mpeg">
+</audio>
+
+<!-- LOADING SCREEN -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري تجهيز تجربة فاخرة لكلبك...</p>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+    <span class="mico" id="mico">🎵</span>
+    <span id="mlabel">flora.mp3</span>
+    <div class="mwaves"><b></b><b></b><b></b><b></b><b></b></div>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="videos.html">🎬 الفيديوهات</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> الرعاية الأفضل لصديقك المخلص</div>
+    <h1 class="hero-title"><span class="line-1">مكان آمن ومريح</span><span class="line-2">لكلبك المميز</span><span class="line-3">✦ رعاية فاخرة على مدار الساعة ✦</span></h1>
+    <p class="hero-subtitle">نوفر أرقى تجربة إقامة لكلبك، بخدمات بيطرية متميزة وبيئة آمنة ومريحة تجعله يشعر وكأنه في بيته</p>
+    <div class="hero-actions">
+      <a href="booking.html" class="btn btn-primary btn-lg">📅 احجز إقامة الآن</a>
+      <a href="packages.html" class="btn btn-secondary btn-lg">🎁 استعرض الحزم</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-number" data-count="500" data-suffix="+">0</span><div class="stat-label">كلب سعيد</div></div>
+      <div class="stat-item"><span class="stat-number" data-count="5" data-suffix=" سنوات">0</span><div class="stat-label">من الخبرة</div></div>
+      <div class="stat-item"><span class="stat-number" data-count="24" data-suffix="/7">0</span><div class="stat-label">رعاية مستمرة</div></div>
+      <div class="stat-item"><span class="stat-number" data-count="98" data-suffix="٪">0</span><div class="stat-label">رضا العملاء</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">لماذا نحن الأفضل؟</div>
+      <h2 class="section-title animate-on-scroll delay-1">مميزات تجعلنا <span class="highlight">الخيار الأول</span></h2>
+      <p class="section-subtitle animate-on-scroll delay-2">نلتزم بتوفير أعلى معايير الرعاية والراحة لكلبك في بيئة آمنة ومحبة</p>
+    </div>
+    <div class="grid-3">
+      <div class="card animate-on-scroll delay-1"><div class="card-icon">🏥</div><h3 class="card-title">رعاية بيطرية 24/7</h3><p class="card-text">طاقم طبي بيطري متخصص متاح على مدار الساعة</p></div>
+      <div class="card animate-on-scroll delay-2"><div class="card-icon">🌿</div><h3 class="card-title">مراعي خارجية آمنة</h3><p class="card-text">مساحات خضراء واسعة ومؤمنة لكلبك</p></div>
+      <div class="card animate-on-scroll delay-3"><div class="card-icon">📱</div><h3 class="card-title">تحديثات يومية</h3><p class="card-text">نرسل لك صوراً وتقارير يومية عن كلبك</p></div>
+      <div class="card animate-on-scroll delay-1"><div class="card-icon">🌡️</div><h3 class="card-title">تدفئة وتبريد</h3><p class="card-text">غرف مزودة بأنظمة تدفئة وتبريد</p></div>
+      <div class="card animate-on-scroll delay-2"><div class="card-icon">🚗</div><h3 class="card-title">خدمة التوصيل</h3><p class="card-text">نوفر خدمة التوصيل من وإلى منزلك</p></div>
+      <div class="card animate-on-scroll delay-3"><div class="card-icon">📺</div><h3 class="card-title">ترفيه وراحة</h3><p class="card-text">غرف مجهزة بتلفزيون وواي فاي</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTER SECTION -->
+<section class="counter-section">
+  <div class="container">
+    <div class="counters-grid">
+      <div class="counter-item animate-on-scroll"><span class="counter-number" data-count="500" data-suffix="+">0+</span><div class="counter-label">عميل راضٍ</div></div>
+      <div class="counter-item animate-on-scroll delay-1"><span class="counter-number" data-count="15" data-suffix=" خبيراً">0</span><div class="counter-label">من المتخصصين</div></div>
+      <div class="counter-item animate-on-scroll delay-2"><span class="counter-number" data-count="3" data-suffix=" حزم">0</span><div class="counter-label">إقامة متنوعة</div></div>
+      <div class="counter-item animate-on-scroll delay-3"><span class="counter-number" data-count="1000" data-suffix="+">0+</span><div class="counter-label">ليلة إقامة</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES PREVIEW -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">حزم الإقامة</div>
+      <h2 class="section-title animate-on-scroll delay-1">اختر الحزمة <span class="highlight">المناسبة لكلبك</span></h2>
+    </div>
+    <div class="pricing-grid">
+      <div class="package-card animate-on-scroll delay-1">
+        <span class="package-icon">🌙</span><div class="package-name">حزمة اليوم</div>
+        <div class="package-price">٥٠ $ <span>/ ليلة</span></div>
+        <ul class="package-features"><li>مشي مرتين يومياً</li><li>منطقة لعب خارجية</li><li>مسار الرشاقة</li></ul>
+        <a href="booking.html" class="btn btn-secondary" style="width:100%;justify-content:center">احجز الآن</a>
+      </div>
+      <div class="package-card featured animate-on-scroll delay-2">
+        <div class="package-badge">الأكثر شيوعاً</div>
+        <span class="package-icon">⭐</span><div class="package-name">الحزمة الكلاسيكية</div>
+        <div class="package-price">٨٠ $ <span>/ ليلة</span></div>
+        <ul class="package-features"><li>مشي ثلاث مرات يومياً</li><li>حظيرة لعب داخلية</li><li>تحديثات يومية</li></ul>
+        <a href="booking.html" class="btn btn-primary" style="width:100%;justify-content:center">احجز الآن</a>
+      </div>
+      <div class="package-card animate-on-scroll delay-3">
+        <div class="package-badge gold">مميز</div>
+        <span class="package-icon">👑</span><div class="package-name">الحزمة المميزة</div>
+        <div class="package-price">١٢٠ $ <span>/ ليلة</span></div>
+        <ul class="package-features"><li>مشي أربع مرات يومياً</li><li>مساحة عشب خاصة</li><li>جلسة حلاقة</li></ul>
+        <a href="booking.html" class="btn btn-gold" style="width:100%;justify-content:center">احجز الآن</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem" class="animate-on-scroll">
+      <a href="packages.html" class="btn btn-secondary">استعرض جميع الحزم والتفاصيل ←</a>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS PREVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">🎬 فيديوهات</div>
+      <h2 class="section-title animate-on-scroll delay-1">شاهد <span class="highlight">كلابنا السعيدة</span></h2>
+      <p class="section-subtitle animate-on-scroll delay-2">لحظات ممتعة وتدريبات ونصائح مفيدة لكل صاحب كلب</p>
+    </div>
+    <div class="grid-3 animate-on-scroll delay-1">
+      <div class="card" style="padding:0">
+        <video style="width:100%;height:200px;object-fit:cover;background:#000" controls>
+          <source src="./videos/video10.mp4" type="video/mp4">
+        </video>
+        <div style="padding:1rem"><span class="badge badge-blue">تدريب</span><div style="font-size:0.9rem;font-weight:600;margin-top:0.5rem">تدريبات أساسية للكلاب</div></div>
+      </div>
+      <div class="card" style="padding:0">
+        <video style="width:100%;height:200px;object-fit:cover;background:#000" controls>
+          <source src="./videos/video1.mp4" type="video/mp4">
+        </video>
+        <div style="padding:1rem"><span class="badge badge-cyan">لعب</span><div style="font-size:0.9rem;font-weight:600;margin-top:0.5rem">كلاب تلعب في الحديقة</div></div>
+      </div>
+      <div class="card" style="padding:0">
+        <video style="width:100%;height:200px;object-fit:cover;background:#000" controls>
+          <source src="./videos/video3.mp4" type="video/mp4">
+        </video>
+        <div style="padding:1rem"><span class="badge badge-gold">مضحك</span><div style="font-size:0.9rem;font-weight:600;margin-top:0.5rem">أطرف المواقف</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem" class="animate-on-scroll">
+      <a href="videos.html" class="btn btn-secondary btn-lg">🎬 شاهد جميع الفيديوهات ←</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS PREVIEW -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">آراء عملائنا</div>
+      <h2 class="section-title animate-on-scroll delay-1">ماذا يقول <span class="highlight">أصحاب الكلاب</span></h2>
+    </div>
+    <div class="grid-3">
+      <div class="testimonial-card animate-on-scroll delay-1"><div class="stars">★★★★★</div><p class="testimonial-text">خدمة ممتازة! كلبي ماكس عاد سعيداً.</p><div class="testimonial-author"><div class="author-avatar">👨</div><div><div class="author-name">أحمد الزهراني</div><div class="author-pet">صاحب كلب لابرادور</div></div></div></div>
+      <div class="testimonial-card animate-on-scroll delay-2"><div class="stars">★★★★★</div><p class="testimonial-text">أفضل فندق للكلاب في المنطقة!</p><div class="testimonial-author"><div class="author-avatar">👩</div><div><div class="author-name">سارة المنصور</div><div class="author-pet">صاحبة كلبة بودل</div></div></div></div>
+      <div class="testimonial-card animate-on-scroll delay-3"><div class="stars">★★★★★</div><p class="testimonial-text">الحزمة المميزة تستحق كل ريال!</p><div class="testimonial-author"><div class="author-avatar">👨‍💼</div><div><div class="author-name">محمد العتيبي</div><div class="author-pet">صاحب كلب جولدن</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="section" style="background: linear-gradient(135deg, rgba(13,41,128,0.4), rgba(0,212,255,0.05)); border-top: var(--border-card); border-bottom: var(--border-card);">
+  <div class="container" style="text-align:center">
+    <div class="animate-on-scroll">
+      <div style="font-size:4rem;margin-bottom:1rem">🐾</div>
+      <h2 class="section-title" style="margin-bottom:1rem">هل كلبك يستحق <span class="highlight">الأفضل؟</span></h2>
+      <p style="color:var(--white-70);margin-bottom:2rem;font-size:1.1rem">احجز إقامة فاخرة الآن وامنح كلبك تجربة لا تُنسى</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="booking.html" class="btn btn-primary btn-lg">📅 احجز الآن مجاناً</a>
+        <a href="contact.html" class="btn btn-secondary btn-lg">📞 تواصل معنا</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:1rem"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+        <p>نوفر أرقى تجربة رعاية لكلبك في بيئة آمنة ومحبة.</p>
+      </div>
+      <div><div class="footer-heading">الصفحات</div><ul class="footer-links"><li><a href="index.html">الرئيسية</a></li><li><a href="about.html">من نحن</a></li><li><a href="services.html">الخدمات</a></li><li><a href="packages.html">الحزم</a></li><li><a href="gallery.html">معرض الصور</a></li><li><a href="videos.html">🎬 الفيديوهات</a></li></ul></div>
+      <div><div class="footer-heading">المزيد</div><ul class="footer-links"><li><a href="team.html">فريقنا</a></li><li><a href="testimonials.html">آراء العملاء</a></li><li><a href="faq.html">الأسئلة الشائعة</a></li><li><a href="blog.html">المدونة</a></li><li><a href="pricing.html">الأسعار</a></li><li><a href="contact.html">تواصل معنا</a></li></ul></div>
+      <div><div class="footer-heading">تواصل معنا</div><ul class="footer-links"><li><a href="tel:+962781521698">📞 0781521698</a></li><li><a href="/cdn-cgi/l/email-protection#71181f171e311d1e07181f16191e1c14025f191a">✉️ <span class="__cf_email__" data-cfemail="40292e262f002c2f36292e27282f2d25336e282b">[email&#160;protected]</span></a></li><li><a href="#">📍 هونغ كونغ</a></li><li><a href="#">🕐 24/7 على مدار الساعة</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+      <div class="footer-social"><div class="social-btn" title="انستغرام">📷</div><div class="social-btn" title="تويتر">🐦</div><div class="social-btn" title="فيسبوك">👍</div><div class="social-btn" title="واتساب">💬</div></div>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+<script src="../js/audio.js"></script>
+</body>
+</html>

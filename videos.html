@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فيديوهات - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Filter Tabs */
+    .filter-wrap {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;
+      padding: 2rem 1rem 0;
+    }
+    .filter-btn {
+      padding: 0.45rem 1.3rem; border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent; color: rgba(255,255,255,0.7);
+      cursor: pointer; font-size: 0.88rem; transition: all 0.25s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { border-color: #3b6fff; color: #fff; }
+    .filter-btn.active { background: #3b6fff; border-color: #3b6fff; color: #fff; }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    @media(max-width: 900px) { .video-grid { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width: 540px) { .video-grid { grid-template-columns: 1fr; } }
+
+    /* Video Card */
+    .video-card {
+      background: linear-gradient(145deg, #0f2040, #050d1a);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(59,111,255,0.25);
+      border-color: rgba(59,111,255,0.45);
+    }
+    .video-card[style*="opacity: 0.2"] { pointer-events: none; }
+
+    /* iframe wrapper - 16:9 */
+    .video-wrap {
+      position: relative; width: 100%; padding-top: 56.25%;
+      background: #020810;
+    }
+    .video-wrap iframe, .video-wrap video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-wrap video {
+      background: #000;
+      object-fit: contain;
+    }
+
+    /* Card Body */
+    .video-body { padding: 1rem 1.2rem 1.4rem; }
+    .video-tag {
+      display: inline-block; padding: 0.2rem 0.7rem;
+      border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+    .tag-play    { background: rgba(0,212,100,0.15); color: #00d464; border: 1px solid rgba(0,212,100,0.3); }
+    .tag-train   { background: rgba(59,111,255,0.15); color: #7aa3ff; border: 1px solid rgba(59,111,255,0.3); }
+    .tag-care    { background: rgba(255,201,71,0.15); color: #ffc947; border: 1px solid rgba(255,201,71,0.3); }
+    .tag-funny   { background: rgba(255,80,130,0.15); color: #ff5082; border: 1px solid rgba(255,80,130,0.3); }
+    .tag-outdoor { background: rgba(0,200,200,0.15); color: #00c8c8; border: 1px solid rgba(0,200,200,0.3); }
+
+    .video-title {
+      font-size: 0.92rem; font-weight: 700;
+      line-height: 1.45; margin-bottom: 0.4rem;
+    }
+    .video-desc {
+      font-size: 0.8rem; color: rgba(255,255,255,0.55);
+      line-height: 1.5;
+    }
+
+    /* Featured video - full width */
+    .video-featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+    .video-featured .video-wrap { padding-top: 0; height: 340px; }
+    .video-featured .video-body {
+      padding: 2rem 1.8rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .video-featured .video-title { font-size: 1.2rem; margin-bottom: 0.8rem; }
+    .video-featured .video-desc  { font-size: 0.88rem; line-height: 1.7; }
+    @media(max-width: 768px) {
+      .video-featured { grid-template-columns: 1fr; }
+      .video-featured .video-wrap { height: auto; padding-top: 56.25%; }
+    }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="videos.html" class="active">الفيديوهات</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Hero -->
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← الفيديوهات</div>
+    <div class="section-tag animate-on-scroll">🎬 مقاطع مختارة</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">فيديوهات الكلاب</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">مقاطع ممتعة ومفيدة — تدريب، لعب، رعاية، وأكثر</p>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filter-wrap animate-on-scroll">
+  <button class="filter-btn active" data-filter="all">الكل</button>
+  <button class="filter-btn" data-filter="play">اللعب</button>
+  <button class="filter-btn" data-filter="train">التدريب</button>
+  <button class="filter-btn" data-filter="care">الرعاية</button>
+  <button class="filter-btn" data-filter="funny">مضحك</button>
+  <button class="filter-btn" data-filter="outdoor">الخارج</button>
+</div>
+
+<!-- Videos -->
+<section class="section">
+  <div class="container">
+    <div class="video-grid" id="videoGrid">
+
+      <!-- مميز - كامل العرض -->
+      <div class="video-card video-featured animate-on-scroll" data-category="train">
+        <div class="video-wrap">
+          <!-- فيديو: تدريب كلب على أوامر أساسية -->
+          <video controls preload="metadata">
+<source src="./videos/video10.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-train">⭐ مميز — تدريب</span>
+          <div class="video-title">كيف تدرب كلبك على 5 أوامر أساسية خلال أسبوع</div>
+          <p class="video-desc">دليل شامل لتدريب كلبك على الجلوس، القيام، التوقف، والمشي بجانبك — بطريقة ممتعة وفعّالة مثبتة علمياً.</p>
+        </div>
+      </div>
+
+      <!-- 1 -->
+      <div class="video-card animate-on-scroll delay-1" data-category="play">
+        <div class="video-wrap">
+          <!-- فيديو: كلاب تلعب في الحديقة -->
+          <video controls preload="metadata">
+<source src="./videos/video1.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-play">🎾 لعب</span>
+          <div class="video-title">كلاب تلعب وتمرح في الحديقة</div>
+          <p class="video-desc">لقطات ممتعة من يوم لعب حر للكلاب في الهواء الطلق.</p>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="video-card animate-on-scroll delay-2" data-category="care">
+        <div class="video-wrap">
+          <!-- فيديو: كيفية استحمام الكلب في المنزل -->
+          <video controls preload="metadata">
+<source src="./videos/video2.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-care">🛁 رعاية</span>
+          <div class="video-title">كيف تستحمم كلبك في المنزل بشكل صحيح</div>
+          <p class="video-desc">خطوات بسيطة لاستحمام كلبك بأمان وبدون توتر.</p>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="video-card animate-on-scroll delay-3" data-category="funny">
+        <div class="video-wrap">
+          <!-- فيديو: كلاب مضحكة -->
+          <video controls preload="metadata">
+<source src="./videos/video3.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-funny">😂 مضحك</span>
+          <div class="video-title">أضحك مواقف للكلاب — لن تتوقف عن الضحك</div>
+          <p class="video-desc">تجميع لأطرف وأمتع المواقف اليومية مع الكلاب.</p>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="video-card animate-on-scroll delay-1" data-category="outdoor">
+        <div class="video-wrap">
+          <!-- فيديو: كلاب في الطبيعة -->
+          <video controls preload="metadata">
+<source src="./videos/video4.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-outdoor">🌿 خارج</span>
+          <div class="video-title">تجربة المشي مع كلبك في الطبيعة</div>
+          <p class="video-desc">لماذا المشي اليومي ضروري لصحة كلبك الجسدية والنفسية.</p>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="video-card animate-on-scroll delay-2" data-category="train">
+        <div class="video-wrap">
+          <!-- فيديو: تدريب الجراء الصغيرة -->
+          <video controls preload="metadata">
+<source src="./videos/video5.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-train">🎓 تدريب</span>
+          <div class="video-title">تدريب الجراء الصغيرة — من أين تبدأ؟</div>
+          <p class="video-desc">أفضل الطرق لتدريب الجرو في الأسابيع الأولى من عمره.</p>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="video-card animate-on-scroll delay-3" data-category="care">
+        <div class="video-wrap">
+          <!-- فيديو: تغذية الكلب الصحية -->
+          <video controls preload="metadata">
+<source src="./videos/video6.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-care">🍗 رعاية</span>
+          <div class="video-title">ما هو الغذاء الأمثل لكلبك؟</div>
+          <p class="video-desc">دليل الطبيب البيطري لاختيار أفضل تغذية حسب سلالة كلبك وعمره.</p>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="video-card animate-on-scroll delay-1" data-category="play">
+        <div class="video-wrap">
+          <!-- فيديو: ألعاب ذكاء للكلاب -->
+          <video controls preload="metadata">
+<source src="./videos/video7.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-play">🧩 لعب</span>
+          <div class="video-title">ألعاب الذكاء التي تحب الكلاب</div>
+          <p class="video-desc">كيف تحفز عقل كلبك وتجعله أكثر نشاطاً وسعادة.</p>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="video-card animate-on-scroll delay-2" data-category="funny">
+        <div class="video-wrap">
+          <!-- فيديو: كلاب وأطفال -->
+          <video controls preload="metadata">
+<source src="./videos/video9.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-funny">😂 مضحك</span>
+          <div class="video-title">صداقة الكلاب والأطفال — لحظات لا تُنسى</div>
+          <p class="video-desc">أجمل وأطرف لحظات الكلاب مع الأطفال الصغار.</p>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="video-card animate-on-scroll delay-3" data-category="outdoor">
+        <div class="video-wrap">
+          <!-- فيديو: كلاب تسبح -->
+          <video controls preload="metadata">
+<source src="./videos/video8.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+        </div>
+        <div class="video-body">
+          <span class="video-tag tag-outdoor">🏊 خارج</span>
+          <div class="video-title">كلاب تسبح للمرة الأولى</div>
+          <p class="video-desc">لحظات رائعة لكلاب تكتشف المياه وتتعلم السباحة.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← الرئيسية</a>
+      <a href="booking.html" class="btn btn-primary btn-sm">احجز الآن</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.video-card').forEach(card => {
+        const show = filter === 'all' || card.dataset.category === filter;
+        card.style.opacity    = show ? '1'    : '0.2';
+        card.style.transform  = show ? ''     : 'scale(0.95)';
+        card.style.pointerEvents = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>

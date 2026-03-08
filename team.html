@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فريقنا - Loving Homes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .team-card { position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .team-card:hover { transform: translateY(-6px); }
+
+    .team-photo-wrap {
+      width: 100%; aspect-ratio: 3/4; overflow: hidden;
+      background: rgba(255,255,255,0.04); position: relative;
+    }
+    .team-photo-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block; transition: transform 0.4s ease;
+    }
+    .team-card:hover .team-photo-wrap img { transform: scale(1.05); }
+    .team-photo-wrap::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
+      background: linear-gradient(transparent, rgba(5,13,26,0.85));
+      pointer-events: none;
+    }
+
+    .team-info { padding: 1rem 1.2rem 1.5rem; }
+    .team-name { font-weight: 700; font-size: 1rem; margin-bottom: 0.15rem; }
+    .team-name-latin { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-bottom: 0.3rem; direction: ltr; }
+    .team-role { font-size: 0.8rem; color: #7aa3ff; margin-bottom: 0.5rem; font-weight: 500; }
+    .team-bio { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.55; }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="loader-paw">🐾</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <p class="loader-text">جاري التحميل...</p>
+</div>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="packages.html">الحزم</a></li>
+    <li><a href="gallery.html">معرض الصور</a></li>
+    <li><a href="team.html" class="active">فريقنا</a></li>
+    <li><a href="testimonials.html">آراء العملاء</a></li>
+    <li><a href="faq.html">الأسئلة</a></li>
+    <li><a href="blog.html">المدونة</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+    <li><a href="booking.html" class="nav-cta">احجز الآن</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">الرئيسية</a> ← فريقنا</div>
+    <div class="section-tag animate-on-scroll">أصحاب الخبرة</div>
+    <h1 class="hero-title animate-on-scroll delay-1"><span class="line-2">فريقنا المتخصص</span></h1>
+    <p class="hero-subtitle animate-on-scroll delay-2">مجموعة من أفضل المتخصصين في رعاية الكلاب قادمون من هونغ كونغ، يجمعهم شغف حقيقي بالحيوانات</p>
+  </div>
+</div>
+
+<!-- القيادة -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">القيادة</div>
+      <h2 class="section-title animate-on-scroll delay-1">الفريق <span class="highlight">القيادي</span></h2>
+    </div>
+    <div class="grid-3">
+
+      <!-- 1 - ضع رابط صورة د. تشان هنا -->
+      <div class="team-card animate-on-scroll delay-1">
+        <div class="team-photo-wrap">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.xrlFQ-moZd6O1y6lmSlRzQHaNd?rs=1&pid=ImgDetMain&o=7&rm=3" alt="د. تشان وَاي مينغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">د. تشان وَاي مينغ</div>
+          <div class="team-name-latin">Dr. Chan Wai Ming</div>
+          <div class="team-role">رئيس الأطباء البيطريين</div>
+          <p class="team-bio">دكتوراه في الطب البيطري من جامعة هونغ كونغ مع 12 عاماً من الخبرة في رعاية الكلاب وعلاجها</p>
+        </div>
+      </div>
+
+      <!-- 2 - ضع رابط صورة ليونغ هنا -->
+      <div class="team-card animate-on-scroll delay-2">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" alt="ليونغ سيو فَان">
+        </div>
+        <div class="team-info">
+          <div class="team-name">ليونغ سيو فَان</div>
+          <div class="team-name-latin">Leung Siu Fan</div>
+          <div class="team-role">مديرة الفندق</div>
+          <p class="team-bio">خبرة 8 سنوات في إدارة فنادق الحيوانات الأليفة في هونغ كونغ، متخصصة في تجربة العملاء</p>
+        </div>
+      </div>
+
+      <!-- 3 - ضع رابط صورة وونغ هنا -->
+      <div class="team-card animate-on-scroll delay-3">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="وُونغ كاي فَاي">
+        </div>
+        <div class="team-info">
+          <div class="team-name">وُونغ كاي فَاي</div>
+          <div class="team-name-latin">Wong Kai Fai</div>
+          <div class="team-role">كبير المدربين</div>
+          <p class="team-bio">معتمد دولياً في تدريب الكلاب وسلوكها، أشرف على تدريب أكثر من 300 كلب في هونغ كونغ</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- الفريق -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag animate-on-scroll">الفريق</div>
+      <h2 class="section-title animate-on-scroll delay-1">متخصصون <span class="highlight">شغوفون</span></h2>
+    </div>
+    <div class="grid-4">
+
+      <!-- 4 - ضع رابط صورة لام هنا -->
+      <div class="team-card animate-on-scroll delay-1">
+        <div class="team-photo-wrap">
+          <img src="https://media.istockphoto.com/id/1534847906/photo/vet-with-dog-and-cat-puppy-and-kitten-at-doctor.jpg?s=170667a&w=0&k=20&c=BN7-M1hyjWmm7cnARBJrkO1q1dq2LaG6U_MihdzzaHA=" alt="لام مَي لينغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">لام مَي لينغ</div>
+          <div class="team-name-latin">Lam Mei Ling</div>
+          <div class="team-role">طبيبة بيطرية</div>
+          <p class="team-bio">متخصصة في صحة الكلاب والتغذية</p>
+        </div>
+      </div>
+
+      <!-- 5 - ضع رابط صورة هو هنا -->
+      <div class="team-card animate-on-scroll delay-2">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="هو تشي كووَنغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">هو تشي كووَنغ</div>
+          <div class="team-name-latin">Ho Chi Kwong</div>
+          <div class="team-role">متخصص تجميل</div>
+          <p class="team-bio">خبير في حلاقة وتجميل جميع سلالات الكلاب</p>
+        </div>
+      </div>
+
+      <!-- 6 - ضع رابط صورة نغ هنا -->
+      <div class="team-card animate-on-scroll delay-3">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="نغ يوك تينغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">نغ يوك تينغ</div>
+          <div class="team-name-latin">Ng Yuk Ting</div>
+          <div class="team-role">مدربة سلوك</div>
+          <p class="team-bio">متخصصة في تعديل سلوك الكلاب وتدريبها</p>
+        </div>
+      </div>
+
+      <!-- 7 - ضع رابط صورة ييب هنا -->
+      <div class="team-card animate-on-scroll delay-4">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="ييب مَان هُو">
+        </div>
+        <div class="team-info">
+          <div class="team-name">ييب مَان هُو</div>
+          <div class="team-name-latin">Yip Man Ho</div>
+          <div class="team-role">مشرف النشاطات</div>
+          <p class="team-bio">يشرف على الأنشطة اليومية والجولات الترفيهية للكلاب</p>
+        </div>
+      </div>
+
+      <!-- 8 - ضع رابط صورة تشيونغ هنا -->
+      <div class="team-card animate-on-scroll delay-1">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="تشيونغ بوك يي">
+        </div>
+        <div class="team-info">
+          <div class="team-name">تشيونغ بوك يي</div>
+          <div class="team-name-latin">Cheung Bik Yi</div>
+          <div class="team-role">مختصة تغذية</div>
+          <p class="team-bio">تضمن الحصة الغذائية المناسبة لكل كلب</p>
+        </div>
+      </div>
+
+      <!-- 9 - ضع رابط صورة تانغ هنا -->
+      <div class="team-card animate-on-scroll delay-2">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="تانغ كوك وينغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">تانغ كوك وينغ</div>
+          <div class="team-name-latin">Tang Kok Wing</div>
+          <div class="team-role">منسق خدمة العملاء</div>
+          <p class="team-bio">يتولى التواصل مع أصحاب الكلاب ويرسل التحديثات</p>
+        </div>
+      </div>
+
+      <!-- 10 - ضع رابط صورة تسانغ هنا -->
+      <div class="team-card animate-on-scroll delay-3">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80" alt="تسانغ سيو وَان">
+        </div>
+        <div class="team-info">
+          <div class="team-name">تسانغ سيو وَان</div>
+          <div class="team-name-latin">Tsang Siu Wan</div>
+          <div class="team-role">مسؤولة التوصيل</div>
+          <p class="team-bio">تتولى خدمة استقبال وتوصيل الكلاب بأمان</p>
+        </div>
+      </div>
+
+      <!-- 11 - ضع رابط صورة كووك هنا -->
+      <div class="team-card animate-on-scroll delay-4">
+        <div class="team-photo-wrap">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" alt="كووك تَاك سينغ">
+        </div>
+        <div class="team-info">
+          <div class="team-name">كووك تَاك سينغ</div>
+          <div class="team-name-latin">Kwok Tak Shing</div>
+          <div class="team-role">فني مختبر</div>
+          <p class="team-bio">مسؤول عن الفحوصات المخبرية والرعاية الصحية</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="text-align:center">
+    <div class="animate-on-scroll">
+      <h2 class="section-title" style="margin-bottom:1rem">هل تريد <span class="highlight">الانضمام لفريقنا؟</span></h2>
+      <p style="color:var(--white-70);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto">نبحث دائماً عن متخصصين شغوفين برعاية الكلاب للانضمام إلى عائلتنا المتنامية</p>
+      <a href="contact.html" class="btn btn-primary btn-lg">أرسل سيرتك الذاتية ←</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="justify-content:center;gap:2rem">
+      <a href="index.html" class="btn btn-secondary btn-sm">← الرئيسية</a>
+      <a href="booking.html" class="btn btn-primary btn-sm">احجز الآن</a>
+    </div>
+    <div style="text-align:center;margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <p class="footer-copy">© <span class="year"></span> Loving Homes. جميع الحقوق محفوظة.</p>
+    </div>
+  </div>
+</footer>
+
+<button class="float-btn" id="scrollTop" title="للأعلى">↑</button>
+<script src="../js/main.js"></script>
+</body>
+</html>

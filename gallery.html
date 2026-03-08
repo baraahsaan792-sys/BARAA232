@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>معرض الصور - Loving Homes</title>
+  <style>
+    :root {
+      --navy-dark: #0a1628;
+      --navy-deepest: #050d1a;
+      --navy-bright: #0f2040;
+      --blue-electric: #3b6fff;
+      --white-70: rgba(255,255,255,0.7);
+      --white-15: rgba(255,255,255,0.15);
+      --gradient-card: linear-gradient(145deg, #0f2040, #050d1a);
+      --border-card: 1px solid rgba(255,255,255,0.08);
+      --border-glow: 1px solid rgba(59,111,255,0.4);
+      --radius-md: 12px;
+      --radius-xl: 20px;
+      --shadow-glow: 0 0 30px rgba(59,111,255,0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--navy-deepest); color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif; direction: rtl; }
+
+    /* Navbar */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5,13,26,0.95); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.3rem; font-weight: 700; }
+    .logo-icon { font-size: 1.5rem; }
+
+    /* Page Hero */
+    .page-hero { padding: 4rem 2rem 3rem; text-align: center; background: linear-gradient(180deg, #0a1628 0%, var(--navy-deepest) 100%); }
+    .page-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 0.8rem; }
+    .page-hero p { color: var(--white-70); font-size: 1.1rem; }
+    .section-tag {
+      display: inline-block; padding: 0.3rem 1rem; border-radius: 50px;
+      background: rgba(59,111,255,0.15); border: 1px solid rgba(59,111,255,0.4);
+      color: #7aa3ff; font-size: 0.85rem; margin-bottom: 1rem;
+    }
+
+    /* Filters */
+    .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; padding: 2rem; }
+    .filter-btn {
+      padding: 0.5rem 1.5rem; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
+      background: transparent; color: var(--white-70); cursor: pointer; font-size: 0.9rem;
+      transition: all 0.25s; font-family: inherit;
+    }
+    .filter-btn:hover { border-color: var(--blue-electric); color: #fff; }
+    .filter-btn.active { background: var(--blue-electric); border-color: var(--blue-electric); color: #fff; }
+
+    /* Masonry Gallery */
+    .gallery-section { padding: 0 2rem 4rem; max-width: 1200px; margin: 0 auto; }
+    .masonry { columns: 3; column-gap: 1rem; }
+    .masonry-item {
+      break-inside: avoid; margin-bottom: 1rem;
+      border-radius: var(--radius-md); overflow: hidden; cursor: pointer;
+      border: var(--border-card); position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    }
+    .masonry-item:hover { transform: scale(1.02); box-shadow: var(--shadow-glow); border-color: rgba(59,111,255,0.5); }
+    .masonry-item img {
+      width: 100%; display: block; object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .masonry-item:hover img { transform: scale(1.05); }
+    .masonry-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 1rem 0.8rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      font-size: 0.85rem; color: rgba(255,255,255,0.9);
+      transform: translateY(5px); opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .masonry-item:hover .masonry-caption { opacity: 1; transform: translateY(0); }
+    .img-overlay {
+      position: absolute; inset: 0; background: rgba(59,111,255,0.1);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .masonry-item:hover .img-overlay { opacity: 1; }
+    .img-overlay svg { width: 36px; height: 36px; stroke: #fff; }
+
+    /* Fullscreen Modal */
+    .gallery-fullscreen {
+      position: fixed; inset: 0; background: rgba(2,8,24,0.97); z-index: 9000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    }
+    .gallery-fullscreen.open { opacity: 1; visibility: visible; }
+    .modal-img-wrap {
+      max-width: 90vw; max-height: 85vh; position: relative;
+      border-radius: var(--radius-xl); overflow: hidden;
+      box-shadow: var(--shadow-glow);
+      animation: scaleIn 0.3s ease;
+    }
+    @keyframes scaleIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-img-wrap img { max-width: 90vw; max-height: 80vh; display: block; object-fit: contain; border-radius: var(--radius-xl); }
+    .modal-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1.5rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      color: rgba(255,255,255,0.9); font-size: 0.95rem; text-align: center;
+      border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    }
+    .gallery-close {
+      position: fixed; top: 1.5rem; left: 1.5rem; width: 46px; height: 46px;
+      border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 1.3rem; color: #fff; transition: all 0.2s; z-index: 9100;
+    }
+    .gallery-close:hover { background: var(--blue-electric); transform: rotate(90deg); }
+    .modal-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.3rem; color: #fff;
+      transition: all 0.2s; z-index: 9100;
+    }
+    .modal-nav:hover { background: var(--blue-electric); }
+    .modal-prev { right: 1.5rem; }
+    .modal-next { left: 1.5rem; }
+
+    @media(max-width:768px) { .masonry { columns: 2; } }
+    @media(max-width:480px) { .masonry { columns: 1; } }
+
+    /* Floating Home Button */
+    .float-btn.home-btn {
+      position: fixed;
+      bottom: 5.5rem;
+      right: 1.5rem;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(59,111,255,0.15);
+      border: 1px solid rgba(59,111,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: #fff;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      text-decoration: none;
+    }
+    .float-btn.home-btn:hover {
+      background: var(--blue-electric);
+      border-color: var(--blue-electric);
+      box-shadow: 0 0 20px rgba(59,111,255,0.5);
+      transform: scale(1.1);
+    }
+  </style>
+  <style>.loading-screen{display:none!important;}</style>
+  <script src="../js/toolbar.js" defer></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo"><div class="logo-icon">🐾</div><span>Loving Homes</span></div>
+</nav>
+
+<div class="page-hero">
+  <div class="section-tag">اهلا فيك في معرضنا</div>
+  <h1>معرض الصور</h1>
+  <p>اكتشف بيئة فندقنا الرائعة وشاهد كلابنا السعيدة</p>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" data-filter="all">الكل</button>
+  <button class="filter-btn" data-filter="rooms">الغرف</button>
+  <button class="filter-btn" data-filter="play">اللعب</button>
+  <button class="filter-btn" data-filter="outdoor">الخارج</button>
+  <button class="filter-btn" data-filter="grooming">التجميل</button>
+</div>
+
+<div class="gallery-section">
+  <div class="masonry" id="galleryMasonry">
+
+    <!-- ROOMS -->
+    <div class="masonry-item" data-category="rooms" data-src="https://henkel.youser.tech/upl/sites/default/files/202505/come-togliere-peli-coperta.jpg" data-caption="غرفة فاخرة مع تدفئة تحت الأرضية">
+      <img src="https://henkel.youser.tech/upl/sites/default/files/202505/come-togliere-peli-coperta.jpg" alt="غرفة فاخرة" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">غرفة فاخرة مع تدفئة تحت الأرضية</div>
+    </div>
+
+    <div class="masonry-item" data-category="play" data-src="https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=600&q=80" data-caption="وقت اللعب في حظيرة الألعاب الداخلية">
+      <img src="https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/%D8%A3%D9%81%D8%B6%D9%84-%D9%81%D9%86%D8%A7%D8%AF%D9%82-%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D9%84%D9%8A%D9%81%D8%A9-%D9%81%D9%8A-%D8%AF%D8%A8%D9%8A-_-Body-1-24-10-22_ar-1024x640.jpg" alt="وقت اللعب" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">وقت اللعب في حظيرة الألعاب الداخلية</div>
+    </div>
+
+    <div class="masonry-item" data-category="outdoor" data-src="https://images.unsplash.com/photo-1568572933382-74d440642117?w=600&q=80" data-caption="المراعي الخضراء الواسعة">
+      <img src="https://images.ctfassets.net/3s5io6mnxfqz/6VjcNc9hJFnKmJE8XU5smT/9feec8305b613e0ee67555929401eba9/AdobeStock_222480846.jpeg?w=1920" alt="الخارج" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">المراعي الخضراء الواسعة</div>
+    </div>
+
+    <div class="masonry-item" data-category="grooming" data-src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=600&q=80" data-caption="جلسة حلاقة وتجميل احترافية">
+      <img src="https://decspets.ie/wp-content/uploads/2021/04/hero-3-scaled.jpg" alt="تجميل" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">جلسة حلاقة وتجميل احترافية</div>
+    </div>
+
+    <div class="masonry-item" data-category="play" data-src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" data-caption="العب بالكرة في الملعب الخارجي">
+      <img src="https://th.bing.com/th/id/R.764049c8c41771c32e82f401120a3fbf?rik=2cKGjBzCMDIlsw&riu=http%3a%2f%2fpetsyjo.com%2fcdn%2fshop%2farticles%2fandy-powell-GuE_qLQ_Ej8-unsplash.jpg%3fv%3d1711186524&ehk=SaHa0LAxR%2bNzms11HWaOZiyI7XDSkCkMbK5ZwXEefGc%3d&risl=&pid=ImgRaw&r=0" alt="العب بالكرة" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">العب بالكرة في الملعب الخارجي</div>
+    </div>
+
+    <div class="masonry-item" data-category="rooms" data-src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&q=80" data-caption="غرفة مريحة مع واي فاي">
+      <img src="https://ae01.alicdn.com/kf/S0710e0cff12c4a0a9a46b1bfb0360a4fc.png" alt="غرفة مريحة" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">غرفة مريحة مع واي فاي</div>
+    </div>
+
+    <div class="masonry-item" data-category="outdoor" data-src="https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=600&q=80" data-caption="جولة المشي اليومية في الهواء الطلق">
+      <img src="https://megheathdogleads.co.uk/wp-content/uploads/2018/06/dog-lead-and-walking-belt-1.jpg" alt="جولة المشي" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">جولة المشي اليومية في الهواء الطلق</div>
+    </div>
+
+    <div class="masonry-item" data-category="play" data-src="https://images.unsplash.com/photo-1534361960057-19f4434e639d?w=600&q=80" data-caption="ألعاب تفاعلية ممتعة">
+      <img src="https://ae01.alicdn.com/kf/Sbb7b97c40651418ba6712ab2a2ce849ci.jpg" alt="ألعاب تفاعلية" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">ألعاب تفاعلية ممتعة</div>
+    </div>
+
+    <div class="masonry-item" data-category="grooming" data-src="https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=600&q=80" data-caption="استحمام وتنظيف شامل">
+      <img src="https://cdn-fastly.petguide.com/media/2022/02/28/8263327/how-to-groom-a-dog.jpg?size=720x845&nocrop=1" alt="استحمام" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">استحمام وتنظيف شامل</div>
+    </div>
+
+    <div class="masonry-item" data-category="outdoor" data-src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=600&q=80" data-caption="الاسترخاء في الهواء الطلق">
+      <img src="https://www.pupvine.com/wp-content/uploads/2023/01/german-shephered-lying-on-the-grass.jpg" alt="الاسترخاء" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">الاسترخاء في الهواء الطلق</div>
+    </div>
+
+    <div class="masonry-item" data-category="rooms" data-src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&q=80" data-caption="وقت النوم في راحة تامة">
+      <img src="https://petsgrow.com/wp-content/uploads/2019/10/%D9%83%D9%84%D8%A8%D9%8A-%D9%8A%D9%86%D8%A7%D9%85-%D9%83%D8%AB%D9%8A%D8%B1%D9%8B%D8%A7.jpg" alt="وقت النوم" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">وقت النوم في راحة تامة</div>
+    </div>
+
+    <div class="masonry-item" data-category="play" data-src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600&q=80" data-caption="أصدقاء جدد ومرح لا ينتهي">
+      <img src="https://wl-brightside.cf.tsp.li/resize/728x/jpg/9c2/e19/e923eb5f429de37bd7c75d5432.jpg" alt="أصدقاء جدد" loading="lazy">
+      <div class="img-overlay"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <div class="masonry-caption">أصدقاء جدد ومرح لا ينتهي</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Fullscreen Modal -->
+<div class="gallery-fullscreen" id="galleryModal">
+  <div class="gallery-close" id="galleryClose">✕</div>
+  <button class="modal-nav modal-prev" id="modalPrev">&#8250;</button>
+  <button class="modal-nav modal-next" id="modalNext">&#8249;</button>
+  <div class="modal-img-wrap" id="galleryModalContent">
+    <img id="modalImg" src="" alt="">
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
+</div>
+
+<script>
+  const items = Array.from(document.querySelectorAll('.masonry-item'));
+  let currentIndex = 0;
+  let visibleItems = items;
+
+  function openModal(index) {
+    currentIndex = index;
+    const item = visibleItems[currentIndex];
+    document.getElementById('modalImg').src = item.dataset.src;
+    document.getElementById('modalCaption').textContent = item.dataset.caption;
+    document.getElementById('galleryModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('galleryModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      visibleItems = items.filter(it => it.style.opacity !== '0.2');
+      const idx = visibleItems.indexOf(item);
+      if (idx !== -1) openModal(idx);
+    });
+  });
+
+  document.getElementById('galleryClose').addEventListener('click', closeModal);
+  document.getElementById('galleryModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  document.getElementById('modalPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    openModal(currentIndex);
+  });
+  document.getElementById('modalNext').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    openModal(currentIndex);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('galleryModal').classList.contains('open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowRight') document.getElementById('modalNext').click();
+    if (e.key === 'ArrowLeft') document.getElementById('modalPrev').click();
+  });
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.style.opacity = show ? '1' : '0.2';
+        item.style.transform = show ? '' : 'scale(0.95)';
+        item.style.pointerEvents = show ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+<!-- Floating Home Button -->
+<a href="index.html" class="float-btn home-btn" title="العودة للرئيسية">🏠</a>
+
+</body>
+</html>
